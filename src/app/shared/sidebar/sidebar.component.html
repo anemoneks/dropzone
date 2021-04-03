@@ -1,0 +1,33 @@
+<nav class="sidebar-nav">
+  <ul id="sidebarnav">
+    <!-- First level menu -->
+    <div *ngFor="let sidebarnavItem of sidebarnavItems">
+
+      <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title"
+        [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
+        <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title}}</div>
+        <a class="sidebar-link waves-effect waves-dark"
+          [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null" [ngClass]="[sidebarnavItem.class]"
+          *ngIf="!sidebarnavItem.extralink;" (click)="addExpandClass(sidebarnavItem.title)"
+          [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
+          <i [ngClass]="[sidebarnavItem.icon]"></i>
+          <span class="hide-menu">{{sidebarnavItem.title}}</span>
+        </a>
+      </li>
+
+      <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title"
+        *ngFor="let submenuItem of sidebarnavItem.submenu"
+        [routerLinkActive]="submenuItem.submenu.length != 0 ? '' : 'active'">
+        <div class="nav-small-cap" *ngIf="submenuItem.extralink === true">{{submenuItem.title}}</div>
+        <a class="sidebar-link waves-effect waves-dark"
+          [routerLink]="submenuItem.class === '' ? [submenuItem.path] : null" [ngClass]="[submenuItem.class]"
+          *ngIf="!submenuItem.extralink;" (click)="addExpandClass(submenuItem.title)"
+          [routerLinkActive]="submenuItem.submenu.length != 0 ? '' : 'active'">
+          <i [ngClass]="[submenuItem.icon]"></i>
+          <span class="hide-menu">{{submenuItem.title}}</span>
+        </a>
+      </li>
+
+    </div>
+  </ul>
+</nav>
