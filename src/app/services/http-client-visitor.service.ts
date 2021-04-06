@@ -56,7 +56,6 @@ export class HttpClientVisitorService extends VisitorService {
   // }
 
   addVisitor(visitor: IVisitor): Observable<IVisitor> {
-    console.log(visitor);
     return this.http.post<IVisitor>(this.visitorsUrl, visitor, cudOptions).pipe(
       catchError(this.handleError)
     );

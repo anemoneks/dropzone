@@ -299,7 +299,6 @@ export class HouseDetailComponent implements OnInit, AfterViewInit {
   }
 
   deleteSelected2(): void {
-    console.log(this.selection2.selected);
     var deleted = this.selection2.selected.map(x => {
       return this.HttpClientPaymentService.deletePayment(x.payment);
     }) || [];

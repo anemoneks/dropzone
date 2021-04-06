@@ -56,7 +56,6 @@ export class HttpClientHouseService extends HouseService {
   // }
 
   addHouse(house: IHouse): Observable<IHouse> {
-    console.log(house);
     return this.http.post<IHouse>(this.housesUrl, house, cudOptions).pipe(
       catchError(this.handleError)
     );

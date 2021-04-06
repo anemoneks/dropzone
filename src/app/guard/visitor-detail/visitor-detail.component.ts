@@ -40,12 +40,10 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
   public files: File[] = [];
   public options: Options;
   public select2Houses: Array<Select2OptionData>;
+
   public races: Array<IRace> = new Array<IRace>();
   public visitingPurposes: Array<IVisitingPurpose> = new Array<IVisitingPurpose>();
   public vehicleTypes: Array<IVehicleType> = new Array<IVehicleType>();
-
-  @ViewChild('nationalDropZone') componentRef?: VisitorDetailComponent;
-  dropzone: any;
 
   constructor(
     private router: Router,
@@ -117,18 +115,28 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
 
       // visiting purposes
       this.visitingPurposes = r[3] || [];
-
-      console.log(this.visitingPurposes);
     });
 
     if (_id) {
 
+      console.log(_id);
+
       this.HttpClientVisitorService.getVisitor(_id)
         .subscribe(x => {
-          this.f().controls._id.setValue(x._id || '');
-          this.f().controls.firstName.setValue(x.firstName || '');
-          this.f().controls.lastName.setValue(x.lastName || '');
-          this.f().controls.gender.setValue(x.gender || '');
+
+          this.f().get('house.houses').setValue([(x as any).house?._id]);
+
+          this.f().get('visitor._id').setValue(x?._id);
+          this.f().get('visitor.firstName').setValue(x?.firstName);
+          this.f().get('visitor.lastName').setValue(x?.lastName);
+          this.f().get('visitor.gender').setValue(x?.gender);
+          this.f().get('visitor.vehicleNo').setValue(x?.vehicleNo);
+
+          this.f().get('visitor.raceId').setValue((x as any).race?._id);
+          this.f().get('visitor.vehicleTypeId').setValue((x as any).vehicleType?._id);
+          this.f().get('visitor.visitingPurposeId').setValue((x as any).visitingPurpose?._id);
+
+          this.f().get('visitor.documents').setValue(x.documents || []);
         });
     }
     else {
@@ -156,7 +164,6 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
       const documents = _this.f().get('visitor.documents').value || [];
       documents.push(base64);
       _this.f().get('visitor.documents').setValue(documents);
-      console.log(documents);
     };
     reader.readAsDataURL(this.files[0]);
   }
@@ -167,7 +174,10 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
     this.files.splice(deletedIndex, 1);
     documents.splice(deletedIndex, 1);
     this.f().get('visitor.documents').setValue(documents);
-    console.log(documents);
+  }
+
+  removeImage(event: any) {
+    (this.f().get('visitor.documents').value || []).splice(event, 1)
   }
 
   save(): void {

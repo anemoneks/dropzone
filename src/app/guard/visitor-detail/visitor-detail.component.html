@@ -1,6 +1,30 @@
 <!-- ============================================================== -->
 <!-- Table -->
 <!-- ============================================================== -->
+<style>
+  #container {
+    width: 80px;
+    height: 80px;
+    /*border-radius: 25px;*/
+    border: 2px solid Black;
+    padding: 15px 15px 15px 15px;
+    margin: 20px 20px 20px 20px;
+    background: #A4D3EE;
+    overflow: visible;
+    box-shadow: 5px 5px 2px #888888;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 80px 80px;
+  }
+
+  #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+  }
+</style>
 <div class="row">
   <!-- column -->
   <div class="col-12">
@@ -147,6 +171,15 @@
                   [removable]="true" (removed)="onRemove(f)">
                   <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                 </ngx-dropzone-image-preview>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-3" *ngFor="let d of (f().get('visitor.documents').value || []); let indexOfelement = index;">
+              <div id="container" style="background-image: url({{d}});">
+                <button id="x" (click)="removeImage(indexOfelement);">
+                  X
+                </button>
               </div>
             </div>
           </div>

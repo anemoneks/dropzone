@@ -31,7 +31,7 @@ export const GuardsRoutes: Routes = [
         }
       },
       {
-        path: 'visitor',
+        path: 'visitors/edit/:id',
         component: VisitorDetailComponent,
         data: {
           title: 'Visitor',
