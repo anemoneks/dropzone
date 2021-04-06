@@ -19,7 +19,7 @@ exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res
     ;
 });
 exports.api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    const { _id, firstName, lastName, gender, vehicleNo, raceId, vehicleTypeId, houseId, visitingPurposeId } = req.body;
+    const { _id, firstName, lastName, gender, vehicleNo, raceId, vehicleTypeId, houseId, visitingPurposeId, documents } = req.body;
     const visitor = new visitor_1.Visitor();
     visitor.firstName = firstName;
     visitor.lastName = lastName;
@@ -30,6 +30,7 @@ exports.api.post('/', passport.authenticate('jwt', { session: false }), (req, re
     visitor.house = houseId;
     visitor.visitingPurpose = visitingPurposeId;
     visitor.visitedDate = new Date();
+    visitor.documents = documents;
     visitor.save();
     res.json(visitor);
 });

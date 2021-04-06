@@ -17,7 +17,7 @@ api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) 
 });
 
 api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  const { _id, firstName, lastName, gender, vehicleNo, raceId, vehicleTypeId, houseId, visitingPurposeId } = req.body;
+  const { _id, firstName, lastName, gender, vehicleNo, raceId, vehicleTypeId, houseId, visitingPurposeId, documents } = req.body;
   const visitor: any = new Visitor();
   visitor.firstName = firstName;
   visitor.lastName = lastName;
@@ -28,6 +28,7 @@ api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next)
   visitor.house = houseId;
   visitor.visitingPurpose = visitingPurposeId;
   visitor.visitedDate = new Date();
+  visitor.documents = documents;
   visitor.save();
   res.json(visitor);
 });

@@ -9,6 +9,7 @@ import { NgSelect2Module } from 'ng-select2';
 import { HousesComponent } from './houses/houses.component';
 import { VisitorsComponent } from './visitors/visitors.component';
 import { VisitorDetailComponent } from './visitor-detail/visitor-detail.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { VisitorDetailComponent } from './visitor-detail/visitor-detail.componen
     DataTablesModule,
     NgbModalModule,
     NgbDatepickerModule,
+    NgxDropzoneModule,
   ],
   declarations: [
     HousesComponent,

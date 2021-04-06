@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IVisitor } from './../../interfaces/i-visitor';
 import { Visitor } from './../../models/visitor';
@@ -37,11 +37,15 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
   visitors: Observable<IVisitor[]> = this.HttpClientVisitorService.getVisitors();
   selectedVisitors: SelectionModel<string> = new SelectionModel<string>(true, []);
 
+  public files: File[] = [];
   public options: Options;
   public select2Houses: Array<Select2OptionData>;
   public races: Array<IRace> = new Array<IRace>();
   public visitingPurposes: Array<IVisitingPurpose> = new Array<IVisitingPurpose>();
   public vehicleTypes: Array<IVehicleType> = new Array<IVehicleType>();
+
+  @ViewChild('nationalDropZone') componentRef?: VisitorDetailComponent;
+  dropzone: any;
 
   constructor(
     private router: Router,
@@ -54,7 +58,7 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
     private formBuilder: FormBuilder,
   ) { }
 
-  f(): FormGroup {
+  public f(): FormGroup {
     return this.visitorDetailsForm;
   }
 
@@ -142,6 +146,30 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
     }
   }
 
+  onSelect(event) {
+    this.files.push(...event.addedFiles);
+
+    const reader = new FileReader();
+    const _this = this;
+    reader.onload = function (evt) {
+      const base64 = evt.target.result;
+      const documents = _this.f().get('visitor.documents').value || [];
+      documents.push(base64);
+      _this.f().get('visitor.documents').setValue(documents);
+      console.log(documents);
+    };
+    reader.readAsDataURL(this.files[0]);
+  }
+
+  onRemove(event) {
+    const deletedIndex = this.files.indexOf(event);
+    const documents = this.f().get('visitor.documents').value || [];
+    this.files.splice(deletedIndex, 1);
+    documents.splice(deletedIndex, 1);
+    this.f().get('visitor.documents').setValue(documents);
+    console.log(documents);
+  }
+
   save(): void {
     this.f().markAllAsTouched();
     if (this.f().valid) {
@@ -155,6 +183,7 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
         vehicleTypeId: this.f().get('visitor.vehicleTypeId').value,
         houseId: this.f().get('visitor.houseId').value,
         visitingPurposeId: this.f().get('visitor.visitingPurposeId').value,
+        documents: this.f().get('visitor.documents').value || [],
       } as Visitor;
 
       if (visitor._id) {

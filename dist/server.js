@@ -27,9 +27,9 @@ let connection = mongoose.connect(process.env.MONGODB_URI || "mongodb://localhos
  * APP INITIALIZATION
  */
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.static(__dirname));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(cors());
 /**
