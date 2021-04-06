@@ -13,7 +13,6 @@ import { HousePayment } from 'src/app/models/house-payment';
 import { FileUpload } from 'src/app/shared/file-upload';
 import { ModalDismissReasons, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IHouse } from 'src/app/interfaces/i-house';
-import { IPayment } from 'src/app/interfaces/i-payment';
 import { Options } from 'select2';
 import { Select2OptionData } from 'ng-Select2';
 import { House } from 'src/app/models/house';

@@ -7,6 +7,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { defaultIfEmpty } from 'rxjs/operators';
+import * as moment from 'moment';
+import * as mm from 'moment-timezone';
 
 @Component({
   templateUrl: './visitors.component.html'

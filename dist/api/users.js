@@ -16,7 +16,6 @@ exports.api.get('/current', function (req, res) {
     })
         .populate('roles')
         .exec((err, users) => {
-        console.log(users);
     });
     res.json({
         success: true,

@@ -1,0 +1,355 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls.unit?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Unit must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="f().controls.unit?.errors?.pattern">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Unit must be number.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="f().controls.street?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Street must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-1">
+              <label for="unit">Unit</label>
+              <input class="form-control" formControlName="unit"
+                [ngClass]="{ 'border border-danger': f().controls.unit.errors?.required || f().controls.unit.errors?.pattern }"
+                id="unit" placeholder="Unit">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="street">Street</label>
+              <input class="form-control" formControlName="street" id="street" placeholder="Street"
+                [ngClass]="{ 'border border-danger': f().controls.street.errors?.required }">
+            </div>
+            <div class="form-group col-md-8">
+              <label for="street">Users</label>
+              <ng-select2 [data]="exampleData" [options]="options" [width]="500" formControlName="users">
+              </ng-select2>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <hr />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-striped table-bordered table-sm row-border hover">
+                <thead>
+                  <tr>
+                    <th>Invoice No</th>
+                    <th>Amount</th>
+                    <th>Bill Month</th>
+                    <th>Bill Year</th>
+                    <th>Status</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let bill of bills">
+                    <td>
+                      <a href="javascript: void (0);" (click)="open(mymodal, bill._id)">{{ bill.invoiceNo }}</a>
+                    </td>
+                    <td>
+                      <a href="javascript: void (0);" (click)="open(mymodal, bill._id)">{{ bill.amount }}</a>
+                    </td>
+                    <td>{{ months[(bill.billMonth || 1) - 1].text }}</td>
+                    <td>{{ bill.billYear }}</td>
+                    <td>{{ billStatus[bill.status] }}</td>
+                    <td>
+                      <div class="pretty p-icon">
+                        <input class="form-check-input" type="checkbox" id="gridCheck"
+                          (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(bill) : null"
+                          [checked]="selection.isSelected(bill)">
+                        <div class="state">
+                          <i class="icon fa fa-check"></i>
+                          <label></label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="6">
+                      <div class="d-flex justify-content-end w-100">
+                        <div class="p-2">
+                          <button class="btn btn-primary" (click)="open(mymodal, null)">Add</button>
+                        </div>
+                        <div class="p-2">
+                          <button type="button" class="btn btn-primary" (click)="deleteSelected()"
+                            [disabled]="(selection.selected || []).length <= 0">
+                            Delete
+                          </button>
+                        </div>
+                        <div class="p-2">
+                          <button type="button" class="btn btn-primary" (click)="closeSelected()"
+                            [disabled]="(selection.selected || []).length <= 0">
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <hr />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger2"
+                class="table table-striped table-bordered table-sm row-border hover">
+                <thead>
+                  <tr>
+                    <th>Reference No</th>
+                    <th>Amount</th>
+                    <th>Paid On</th>
+                    <th>Created On</th>
+                    <th>Uploaded By</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let housePayment of housePayments">
+                    <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
+                        housePayment.payment.referenceNo }}</a></td>
+                    <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
+                        housePayment.payment.amount }}</a></td>
+                    <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
+                        housePayment.payment.paidDate | date }}</a></td>
+                    <td><a href="javascript: void (0);"
+                        (click)="open2(paymentModal, housePayment.payment._id)">{{housePayment.payment.createdDate |
+                        date
+                        }}</a></td>
+                    <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
+                        housePayment.payment.createdBy }}</a></td>
+                    <td>
+                      <div class="pretty p-icon">
+                        <input class="form-check-input" type="checkbox" id="gridCheck"
+                          (click)="$event.stopPropagation()" (change)="$event ? selection2.toggle(housePayment) : null"
+                          [checked]="selection2.isSelected(housePayment)">
+                        <div class="state">
+                          <i class="icon fa fa-check"></i>
+                          <label></label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="6">
+                      <div class="d-flex justify-content-end w-100">
+                        <div class="p-2">
+                          <button class="btn btn-primary" (click)="open2(paymentModal, null)">Add</button>
+                        </div>
+                        <div class="p-2">
+                          <button type="button" class="btn btn-primary" (click)="deleteSelected2()">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <hr />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col d-flex justify-content-end w-100">
+              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+
+
+<!-- ============================================================== -->
+<!-- Modal -->
+<!-- ============================================================== -->
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add new bill</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="billDetailForm">
+      <div class="form-row" *ngIf="billDetailForm.controls.invoiceNo?.errors?.required">
+        <div class="col-md-12">
+          <ngb-alert [dismissible]="false">
+            Invoice no must not be empty.
+          </ngb-alert>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="billDetailForm.controls.amount?.errors?.required">
+        <div class="col-md-12">
+          <ngb-alert [dismissible]="false">
+            Amount must not be empty.
+          </ngb-alert>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="billDetailForm.controls.amount?.errors?.pattern">
+        <div class="col-md-12">
+          <ngb-alert [dismissible]="false">
+            Amount must be number.
+          </ngb-alert>
+        </div>
+      </div>
+      <div class="form-row"
+        *ngIf="billDetailForm.controls.billMonth?.errors?.billPeriod || billDetailForm.controls.billYear?.errors?.billPeriod">
+        <div class="col-md-12">
+          <ngb-alert [dismissible]="false">
+            Bill period already exists.
+          </ngb-alert>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="invoiceNo">Invoice No</label>
+          <input class="form-control" formControlName="invoiceNo"
+            [ngClass]="{ 'border border-danger': billDetailForm.controls.invoiceNo.errors?.required }" id="invoiceNo"
+            placeholder="Invoice No">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="amount">Amount</label>
+          <input class="form-control" formControlName="amount"
+            [ngClass]="{ 'border border-danger': (billDetailForm.controls.amount.errors?.required || billDetailForm.controls.amount?.errors?.pattern) }"
+            id="amount" placeholder="Amount">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Period Month</label>
+          <select class="form-control" id="billMonth" [compareWith]="compareFn" formControlName="billMonth"
+            (change)="onBillMonthChange()"
+            [ngClass]="{ 'border border-danger': billDetailForm.controls.billMonth.errors?.billPeriod }">
+            <option *ngFor="let month of months" [ngValue]="month.id">
+              {{ month.text }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="billYear">Period Year</label>
+          <select class="form-control" id="billYear" formControlName="billYear" (change)="onBillMonthChange()"
+            [ngClass]="{ 'border border-danger': billDetailForm.controls.billYear.errors?.billPeriod }">
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancel</button>
+
+    <button type="button" class="btn btn-primary" (click)="addBill()">Ok</button>
+  </div>
+</ng-template>
+<!-- ============================================================== -->
+<!-- Modal -->
+<!-- ============================================================== -->
+
+
+<ng-template #paymentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add new payment</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="paymentDetailForm">
+      <div formGroupName="house"></div>
+      <div formGroupName="payment">
+        <div class="form-row">
+          <div class="form-group col-12">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="paidDate"
+                [ngClass]="{ 'border border-danger': paymentDetailForm.controls.payment.controls.paidDate?.errors?.required }"
+                (ngModelChange)="onDateChange($event)" #d3="ngbDatepicker" ngModel
+                [ngModelOptions]="{standalone: true}">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary no-shadow" (click)="d3.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="referenceNo">Reference No</label>
+            <input class="form-control" formControlName="referenceNo"
+              [ngClass]="{ 'border border-danger': paymentDetailForm.controls.payment.controls.referenceNo?.errors?.required }"
+              id="referenceNo" placeholder="Reference No">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="amount">Amount</label>
+            <input class="form-control" formControlName="amount"
+              [ngClass]="{ 'border border-danger': (paymentDetailForm.controls.payment.controls.amount?.errors?.required || paymentDetailForm.controls.payment.controls.amount?.errors?.pattern) }"
+              id="amount" placeholder="Amount">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12">
+            <label for="attachment">Attachment</label>
+            <input type="file" class="form-control" id="attachment"
+              [ngClass]="{ 'border border-danger': (paymentDetailForm.controls.payment.controls.filename?.errors?.required) }"
+              (change)="handleFileInput($event.target.files)">
+            {{ paymentDetailForm.controls.payment.get('filename').value }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancel</button>
+
+    <button type="button" class="btn btn-primary" (click)="addPayment()">Ok</button>
+  </div>
+</ng-template>

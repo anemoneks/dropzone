@@ -22,7 +22,15 @@ export const Approutes: Routes = [
       {
         path: 'guard',
         loadChildren: () => import('./guard/guard.module').then(m => m.GuardsModule)
-      }
+      },
+      {
+        path: 'committee',
+        loadChildren: () => import('./committee/committee.module').then(m => m.CommitteeModule)
+      },
+      {
+        path: 'owner',
+        loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule)
+      },
     ],
     canActivate: [AuthGuardService],
   },

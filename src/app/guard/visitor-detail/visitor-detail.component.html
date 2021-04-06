@@ -7,49 +7,121 @@
     <div class="card">
       <div class="card-body">
         <form [formGroup]="f()">
-          <div class="form-row" *ngIf="f().controls.firstName?.errors?.required">
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.firstName?.touched && f().controls?.visitor?.controls?.firstName?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 First name must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="f().controls.lastName?.errors?.required">
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.lastName?.touched && f().controls?.visitor?.controls?.lastName?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Last name must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="f().controls.gender?.errors?.required">
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.vehicleNo?.touched && f().controls?.visitor?.controls?.vehicleNo?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Vehicle no must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.gender?.touched && f().controls?.visitor?.controls?.gender?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Gender must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row">
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.raceId?.touched && f().controls?.visitor?.controls?.raceId?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Race must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.houseId?.touched && f().controls?.visitor?.controls?.houseId?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                House must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row" *ngIf="f().controls?.visitor?.controls?.vehicleTypeId?.touched && f().controls?.visitor?.controls?.vehicleTypeId?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Vehicle type must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="house" class="form-row">
+            <div class="form-group col-12">
+              <label for="houseId">House</label>
+              <div [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.houseId?.errors?.required }">
+                <ng-select2 [data]="select2Houses" [options]="options" [width]="500" formControlName="houses" (ngModelChange)="onHouseChanged($event)">
+                </ng-select2>
+              </div>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row">
             <div class="form-group col-6">
               <label for="firstName">First Name</label>
               <input class="form-control" formControlName="firstName"
-                [ngClass]="{ 'border border-danger': f().controls.firstName?.errors?.required }" id="firstName"
+                [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.firstName?.errors?.required }" id="firstName"
                 placeholder="First Name">
             </div>
             <div class="form-group col-6">
               <label for="lastName">Last Name</label>
               <input class="form-control" formControlName="lastName"
-                [ngClass]="{ 'border border-danger': f().controls.lastName?.errors?.required }" id="lastName"
+                [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.lastName?.errors?.required }" id="lastName"
                 placeholder="Last Name">
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group col-12 btn-group btn-group-toggle" ngbRadioGroup formControlName="gender">
-              <label ngbButtonLabel class="btn-primary">
-                <input ngbButton type="radio" value="M"> Male
-              </label>
-              <label ngbButtonLabel class="btn-primary">
-                <input ngbButton type="radio" value="F"> Female
-              </label>
+          <div formGroupName="visitor" class="form-row">
+            <div class="form-group col-6">
+              <label for="raceId">Race</label>
+              <select class="custom-select" formControlName="raceId" [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.raceId?.errors?.required }">
+                <option *ngFor="let race of races" [value]="race._id">{{race.name}}</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label>Gender</label>
+              <br>
+              <div class="btn-group col-12 btn-group-toggle" ngbRadioGroup formControlName="gender">
+                <label ngbButtonLabel class="btn-primary">
+                  <input ngbButton type="radio" value="M"> Male
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                  <input ngbButton type="radio" value="F"> Female
+                </label>
+              </div>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row">
+            <div class="form-group col-6">
+              <label for="vehicleNo">Vehicle No</label>
+              <input class="form-control" formControlName="vehicleNo"
+                [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.vehicleNo?.errors?.required }" id="vehicleNo"
+                placeholder="Vehicle No">
+            </div>
+            <div class="form-group col-6">
+              <label for="visitingPurposeId">Purpose</label>
+              <select class="custom-select" formControlName="visitingPurposeId" [ngClass]="{ 'border border-danger': f().controls?.visitor?.controls?.visitingPurposeId?.errors?.required }">
+                <option *ngFor="let visitingPurpose of visitingPurposes" [value]="visitingPurpose._id">{{visitingPurpose.description}}</option>
+              </select>
+            </div>
+          </div>
+          <div formGroupName="visitor" class="form-row">
+            <div class="form-group col-12">
+              <label for="vehicleNo">Vehicle Type</label>
+              <br>
+              <div class="btn-group col-12 btn-group-toggle" ngbRadioGroup formControlName="vehicleTypeId">
+                <label ngbButtonLabel class="btn-primary" *ngFor="let vehicleType of vehicleTypes">
+                  <input ngbButton type="radio" [value]="vehicleType._id"> {{vehicleType.name}}
+                </label>
+              </div>
             </div>
           </div>
           <div class="form-row">

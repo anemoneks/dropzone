@@ -4,4 +4,11 @@ export interface IVisitor {
   lastName: string;
   gender: string;
   documents: string[];
+  vehicleNo: string;
+  raceId: string;
+  houseId: string;
+  vehicleTypeId: string;
+  purpose: string;
+  visitingPurposeId: string;
+  visitedDate: Date;
 }

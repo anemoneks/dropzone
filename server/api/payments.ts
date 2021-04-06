@@ -58,7 +58,6 @@ api.post('/', passport.authenticate('jwt', {
     updatedDate: new Date(),
     updatedBy: verified.username,
   }], (err, payment) => {
-    console.log(err);
     if (err) return next(err);
     res.json(payment);
   });

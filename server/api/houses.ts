@@ -22,18 +22,13 @@ api.delete('/:id', passport.authenticate('jwt', {
   });
 });
 
-api.get('/', (req: express.Request, res: express.Response, next) => {
-  console.log(passport.authenticate('jwt', {
-    session: false
-  }));
-  
+api.get('/', (req: express.Request, res: express.Response, next) => {  
   House.find({})
     .populate('bills')
     .populate('users')
     .populate('payments')
     .populate('vehicles')
     .exec((err, houses) => {
-      console.log(err);
       if (err) return next(err);
       res.json(houses || []);
     });

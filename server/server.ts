@@ -13,12 +13,14 @@ import { api as payments } from './api/payments';
 import { api as vehicles } from './api/vehicles';
 import { api as roles } from './api/roles';
 import { api as visitors } from './api/visitors';
+import { api as races } from './api/races';
+import { api as vehicleTypes } from './api/vehicleTypes';
+import { api as visitingPurposes } from './api/visitingPurposes';
 
 /**
  * MONGO DB INITIALIZATION
  */
 dotenv.config();
-console.log(process.env.MONGODB_URI);
 let connection = mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/contentgenerator", { useNewUrlParser: true }).then(
   () => { console.info(`${new Date()} - Connected to MongoDB: ${process.env.MONGODB_URI}`); },
   err => { console.error('MongoDB Connection Error. Please make sure that', process.env.MONGODB_URI, 'is running.'); }
@@ -46,7 +48,10 @@ app.use('/api/bills', bills);
 app.use('/api/payments', payments);
 app.use('/api/vehicles', vehicles);
 app.use('/api/roles', roles);
+app.use('/api/races', races);
 app.use('/api/visitors', visitors);
+app.use('/api/vehicleTypes', vehicleTypes);
+app.use('/api/visitingPurposes', visitingPurposes);
 
 /**
  * SERVER INITIALIZATION

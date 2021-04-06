@@ -1,0 +1,182 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls.firstName?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                First name must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.lastName?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Last name must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.email?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Email must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.email?.errors?.email">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Email is not valid.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.email?.errors?.emailInUsed">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Email already exists.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.username?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Username must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.username?.errors?.usernameInUsed">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Username already exists.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.username?.errors?.pattern">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Username must starts with alphabet.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.password?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Password cannot be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.password?.errors?.minlength">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Password length cannot be less than 6 characters.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.confirmPassword?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Confirm password cannot be empty.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row"
+            *ngIf="f().controls.password?.errors?.mustMatch || f().controls.confirmPassword?.errors?.mustMatch">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Password does not match with confirm password.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls.username?.errors?.minlength">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Length of username must be at least 6 characters.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="unit">First Name</label>
+              <input class="form-control" formControlName="firstName"
+                [ngClass]="{ 'border border-danger': f().controls.firstName?.errors?.required }" id="firstName"
+                placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="street">Last Name</label>
+              <input class="form-control" formControlName="lastName" id="lastName" placeholder="Last Name"
+                [ngClass]="{ 'border border-danger': f().controls.lastName?.errors?.required }">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="unit">Email</label>
+              <input class="form-control" formControlName="email"
+                [ngClass]="{ 'border border-danger': (f().controls.email?.errors?.required || f().controls.email?.errors?.email || f().controls.email?.errors?.emailInUsed) }"
+                id="email" placeholder="Email">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="unit">Username</label>
+              <input class="form-control" formControlName="username"
+                [ngClass]="{ 'border border-danger': (f().controls.username?.errors?.required || f().controls.username?.errors?.minlength || f().controls.username?.errors?.pattern || f().controls.username?.errors?.usernameInUsed) }"
+                id="username" placeholder="Username">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="unit">Password</label>
+              <input type="password" class="form-control" formControlName="password"
+                [ngClass]="{ 'border border-danger': (f().controls.password?.errors?.required || f().controls.password?.errors?.minlength || f().controls.password?.errors?.mustMatch) }"
+                id="password" placeholder="Password">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="unit">Confirm Password</label>
+              <input type="password" class="form-control" formControlName="confirmPassword"
+                [ngClass]="{ 'border border-danger': (f().controls.confirmPassword?.errors?.required || f().controls.confirmPassword?.errors?.mustMatch) }"
+                id="confirmPassword" placeholder="Confirm Password">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="roles">Roles</label>
+              <ng-select2 [data]="select2Roles" [options]="options" [width]="500" formControlName="roles">
+              </ng-select2>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" #avatar />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col d-flex justify-content-end w-100">
+              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

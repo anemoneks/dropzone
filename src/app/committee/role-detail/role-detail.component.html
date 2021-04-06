@@ -1,0 +1,34 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls.name?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Name must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="name">Name</label>
+              <input class="form-control" formControlName="name"
+                [ngClass]="{ 'border border-danger': f().controls.name?.errors?.required }" id="name"
+                placeholder="Name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col d-flex justify-content-end w-100">
+              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

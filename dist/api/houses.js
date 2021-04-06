@@ -22,16 +22,12 @@ exports.api.delete('/:id', passport.authenticate('jwt', {
     });
 });
 exports.api.get('/', (req, res, next) => {
-    console.log(passport.authenticate('jwt', {
-        session: false
-    }));
     House_1.House.find({})
         .populate('bills')
         .populate('users')
         .populate('payments')
         .populate('vehicles')
         .exec((err, houses) => {
-        console.log(err);
         if (err)
             return next(err);
         res.json(houses || []);

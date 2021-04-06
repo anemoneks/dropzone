@@ -3,7 +3,7 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
   {
     path: '',
-    title: 'Personal',
+    title: 'Owner',
     icon: 'mdi mdi-dots-horizontal',
     class: 'nav-small-cap',
     extralink: true,
@@ -17,7 +17,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: '/component/personal/payments',
+        path: '/owner/payments',
         title: 'Payments',
         icon: 'mdi mdi-cash-usd',
         class: '',
@@ -25,8 +25,65 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: '/component/personal/bills',
+        path: '/owner/bills',
         title: 'Bills',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+    ]
+  },
+  {
+    path: '',
+    title: 'Committee',
+    icon: 'mdi mdi-dots-horizontal',
+    class: 'nav-small-cap',
+    extralink: true,
+    submenu: [
+      {
+        path: '/committee/houses',
+        title: 'Houses',
+        icon: 'mdi mdi-home',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/committee/users',
+        title: 'Users',
+        icon: 'mdi mdi-account-multiple',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/committee/bills',
+        title: 'Bills',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/committee/payments',
+        title: 'Payments',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/committee/roles',
+        title: 'Roles',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/committee/visitors',
+        title: 'Visitors',
         icon: 'mdi mdi-cash-usd',
         class: '',
         extralink: false,

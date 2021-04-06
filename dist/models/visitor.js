@@ -15,6 +15,30 @@ var schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    vehicleNo: {
+        type: String,
+        required: true
+    },
+    race: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Race'
+    },
+    vehicleType: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'VehicleType'
+    },
+    house: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'House'
+    },
+    visitingPurpose: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'VisitingPurpose'
+    },
+    visitedDate: {
+        type: Date,
+        required: true,
+    },
     documents: [{
             type: String,
             required: true

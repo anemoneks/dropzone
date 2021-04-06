@@ -15,11 +15,13 @@ const payments_1 = require("./api/payments");
 const vehicles_1 = require("./api/vehicles");
 const roles_1 = require("./api/roles");
 const visitors_1 = require("./api/visitors");
+const races_1 = require("./api/races");
+const vehicleTypes_1 = require("./api/vehicleTypes");
+const visitingPurposes_1 = require("./api/visitingPurposes");
 /**
  * MONGO DB INITIALIZATION
  */
 dotenv.config();
-console.log(process.env.MONGODB_URI);
 let connection = mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/contentgenerator", { useNewUrlParser: true }).then(() => { console.info(`${new Date()} - Connected to MongoDB: ${process.env.MONGODB_URI}`); }, err => { console.error('MongoDB Connection Error. Please make sure that', process.env.MONGODB_URI, 'is running.'); });
 /**
  * APP INITIALIZATION
@@ -41,7 +43,10 @@ app.use('/api/bills', bills_1.api);
 app.use('/api/payments', payments_1.api);
 app.use('/api/vehicles', vehicles_1.api);
 app.use('/api/roles', roles_1.api);
+app.use('/api/races', races_1.api);
 app.use('/api/visitors', visitors_1.api);
+app.use('/api/vehicleTypes', vehicleTypes_1.api);
+app.use('/api/visitingPurposes', visitingPurposes_1.api);
 /**
  * SERVER INITIALIZATION
  */

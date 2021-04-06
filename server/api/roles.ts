@@ -1,9 +1,6 @@
 import * as passport from 'passport';
 import * as express from 'express';
 import { Role } from './../models/Role';
-import { passwordConfig } from './../config/passport';
-
-passwordConfig(passport);
 
 export const api = express();
 
