@@ -7,8 +7,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { defaultIfEmpty } from 'rxjs/operators';
-import * as moment from 'moment';
-import * as mm from 'moment-timezone';
 
 @Component({
   templateUrl: './visitors.component.html'
@@ -64,7 +62,7 @@ export class VisitorsComponent implements OnDestroy, OnInit {
   }
 
   addVisitor(): void {
-    this.Router.navigate(['/guard/visitor']);
+    this.Router.navigate(['/guard/visitors/new']);
   }
 
   deleteSelected(): void {

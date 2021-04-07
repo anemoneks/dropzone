@@ -44,6 +44,7 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
   public races: Array<IRace> = new Array<IRace>();
   public visitingPurposes: Array<IVisitingPurpose> = new Array<IVisitingPurpose>();
   public vehicleTypes: Array<IVehicleType> = new Array<IVehicleType>();
+  public selectedFiles: Array<string> = new Array<string>();
 
   constructor(
     private router: Router,
@@ -161,19 +162,16 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
     const _this = this;
     reader.onload = function (evt) {
       const base64 = evt.target.result;
-      const documents = _this.f().get('visitor.documents').value || [];
-      documents.push(base64);
-      _this.f().get('visitor.documents').setValue(documents);
+      _this.selectedFiles.push(base64 as string);
     };
-    reader.readAsDataURL(this.files[0]);
+    const currentIndex = ((this.files || []).length) - 1;
+    reader.readAsDataURL(this.files[currentIndex]);
   }
 
   onRemove(event) {
     const deletedIndex = this.files.indexOf(event);
-    const documents = this.f().get('visitor.documents').value || [];
     this.files.splice(deletedIndex, 1);
-    documents.splice(deletedIndex, 1);
-    this.f().get('visitor.documents').setValue(documents);
+    this.selectedFiles.splice(deletedIndex, 1);
   }
 
   removeImage(event: any) {
@@ -183,6 +181,9 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
   save(): void {
     this.f().markAllAsTouched();
     if (this.f().valid) {
+
+      const documents = (this.f().get('visitor.documents').value || []).concat(this.selectedFiles);
+
       const visitor: IVisitor = {
         _id: this.f().get('visitor._id').value,
         firstName: this.f().get('visitor.firstName').value,
@@ -193,7 +194,7 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
         vehicleTypeId: this.f().get('visitor.vehicleTypeId').value,
         houseId: this.f().get('visitor.houseId').value,
         visitingPurposeId: this.f().get('visitor.visitingPurposeId').value,
-        documents: this.f().get('visitor.documents').value || [],
+        documents: documents,
       } as Visitor;
 
       if (visitor._id) {

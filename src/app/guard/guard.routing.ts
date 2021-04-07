@@ -31,6 +31,17 @@ export const GuardsRoutes: Routes = [
         }
       },
       {
+        path: 'visitors/new',
+        component: VisitorDetailComponent,
+        data: {
+          title: 'Visitor',
+          urls: [
+            { title: 'Visitor', url: '/guard/visitor' },
+            { title: 'ngVisitor' },
+          ]
+        }
+      },
+      {
         path: 'visitors/edit/:id',
         component: VisitorDetailComponent,
         data: {
