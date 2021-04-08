@@ -1,43 +1,133 @@
 <!-- ============================================================== -->
 <!-- Table -->
 <!-- ============================================================== -->
+<style>
+  #container {
+    width: 150px;
+    height: 150px;
+    /*border-radius: 25px;*/
+    border: 2px solid Black;
+    padding: 15px 15px 15px 15px;
+    margin: 20px 20px 20px 20px;
+    background: #A4D3EE;
+    overflow: visible;
+    box-shadow: 5px 5px 2px #888888;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+  }
+
+  #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+  }
+</style>
 <div class="row">
   <!-- column -->
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <form [formGroup]="f()">
-          <div class="form-row" *ngIf="f().controls.amount?.errors?.required">
+        <form [formGroup]="paymentDetailForm">
+          <div formGroupName="payment" class="form-row"
+            *ngIf="f().controls?.payment?.controls?.houseId?.touched && f().controls?.payment?.controls?.houseId?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                House must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="payment" class="form-row"
+            *ngIf="f().controls?.payment?.controls?.paidDate?.touched && f().controls?.payment?.controls?.paidDate?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Paid date must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="payment" class="form-row"
+            *ngIf="f().controls?.payment?.controls?.referenceNo?.touched && f().controls?.payment?.controls?.referenceNo?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Reference no must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="payment" class="form-row"
+            *ngIf="f().controls?.payment?.controls?.amount?.touched && f().controls?.payment?.controls?.amount?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Amount must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="f().controls.amount?.errors?.pattern">
-            <div class="col-md-12">
-              <ngb-alert [dismissible]="false">
-                Amount must be number.
-              </ngb-alert>
+          <div formGroupName="payment">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="houseId">House</label>
+                <div
+                  [ngClass]="{ 'border border-danger': paymentDetailForm.controls?.payment?.controls?.houseId?.errors?.required }">
+                  <ng-select2 [data]="select2houses" [options]="options" [width]="500" formControlName="houseId">
+                  </ng-select2>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group col-md-1">
-              <label for="Amount">Amount</label>
-              <input class="form-control" formControlName="amount"
-                [ngClass]="{ 'border border-danger': f().controls.amount.errors?.required || f().controls.amount.errors?.pattern }"
-                id="amount" placeholder="Amount">
+          <div formGroupName="payment">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="paidDate"
+                    [ngClass]="{ 'border border-danger': paymentDetailForm.controls?.payment?.controls.paidDate?.errors?.required }"
+                    (ngModelChange)="onDateChange($event)" #d3="ngbDatepicker" ngModel
+                    [ngModelOptions]="{standalone: true}">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary no-shadow" (click)="d3.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div class="form-row">
-            <div class="col">
-              <hr />
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="referenceNo">Reference No</label>
+                <input class="form-control" formControlName="referenceNo"
+                  [ngClass]="{ 'border border-danger': paymentDetailForm.controls?.payment?.controls?.referenceNo?.errors?.required }"
+                  id="referenceNo" placeholder="Reference No">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="amount">Amount</label>
+                <input class="form-control" formControlName="amount"
+                  [ngClass]="{ 'border border-danger': paymentDetailForm.controls?.payment?.controls?.amount?.errors?.required }"
+                  id="amount" placeholder="Amount">
+              </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col d-flex justify-content-end w-100">
-              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="attachment">Attachment</label>
+                <input type="file" class="form-control" id="attachment"
+                  [ngClass]="{ 'border border-danger': (paymentDetailForm.controls?.payment?.controls?.filename?.errors?.required) }"
+                  (change)="handleFileInput($event.target.files)">
+              </div>
+            </div>
+            <div class="form-row" *ngIf="paymentDetailForm.get('payment.attachment').value != null">
+              <div class="form-group col-3">
+                <div id="container" (click)="previewImage();" style="background-image: url({{paymentDetailForm.controls?.payment?.controls?.attachment.value}});">
+                  <button id="x" (click)="removeImage();">
+                    X
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col d-flex justify-content-end w-100">
+                <button type="button" (click)="backClicked()" class="btn btn-primary">Back</button>
+                &nbsp;
+                <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+              </div>
             </div>
           </div>
         </form>

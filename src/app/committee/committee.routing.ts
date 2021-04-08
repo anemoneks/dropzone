@@ -62,7 +62,19 @@ export const CommitteeRoutes: Routes = [
         }
       },
       {
-        path: 'payments/create',
+        path: 'payments/new',
+        component: PaymentDetailComponent,
+        data: {
+          title: 'Payment Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Payments' }
+          ]
+        }
+      },
+      {
+        path: 'payments/edit/:id',
         component: PaymentDetailComponent,
         data: {
           title: 'Payment Detail',
