@@ -23,7 +23,7 @@ export class PaymentDetailComponent implements OnInit {
 
   public options: Options;
   public select2houses: Array<Select2OptionData>;
-  paidDate: NgbDateStruct;
+  public paidDate: NgbDateStruct;
   public files: File[] = [];
   public selectedFiles: Array<string> = new Array<string>();
 
@@ -61,8 +61,16 @@ export class PaymentDetailComponent implements OnInit {
     if (this.paymentId != '') {
       this.HttpClientPaymentService.getPayment(this.paymentId)
         .subscribe(x => {
-          this.paymentDetailForm.controls._id.setValue(x._id || null);
-          this.paymentDetailForm.controls.amount.setValue(x.amount || '');
+          this.paymentDetailForm.get('payment._id').setValue(x._id || null);
+          this.paymentDetailForm.get('payment.houseId').setValue((x as any).house?._id || null);
+          this.paymentDetailForm.get('payment.paidDate').setValue(x.paidDate || null);
+          let paidDate = new Date(x.paidDate);
+          this.paidDate = { year: paidDate.getFullYear(), month: paidDate.getMonth(), day: paidDate.getDate() } as NgbDateStruct;
+          this.paymentDetailForm.get('payment.referenceNo').setValue(x.referenceNo || null);
+          this.paymentDetailForm.get('payment.filename').setValue(x.filename || null);
+          this.paymentDetailForm.get('payment.amount').setValue(x.amount || '');
+          this.paymentDetailForm.get('payment.attachment').setValue(x.attachment || '');
+          this.paymentDetailForm.get('payment.filename').setValue(x.filename || '');
         });
     }
 
@@ -122,6 +130,10 @@ export class PaymentDetailComponent implements OnInit {
       });
   }
 
+  previewImage(): void {
+    alert("to be downloaded");
+  }
+
   removeImage(): void {
     this.paymentDetailForm.get('payment.attachment').setValue(null);
     this.paymentDetailForm.get('payment.filename').setValue(null);
@@ -142,6 +154,12 @@ export class PaymentDetailComponent implements OnInit {
 
       if ((payment._id || '') == '') {
         this.HttpClientPaymentService.addPayment(payment)
+          .subscribe(x => {
+            this.Router.navigate(['/owner/payments']);
+          });
+      }
+      else {
+        this.HttpClientPaymentService.updatePayment(payment)
           .subscribe(x => {
             this.Router.navigate(['/owner/payments']);
           });

@@ -6,18 +6,18 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const helper_1 = require("./../helper");
 const database_1 = require("./../config/database");
-const passport_1 = require("./../config/passport");
 const Payment_1 = require("./../models/Payment");
 const House_1 = require("./../models/House");
-passport_1.passwordConfig(passport);
 exports.api = express();
 exports.api.get('/', passport.authenticate('jwt', {
     session: false
-}), function (req, res, next) {
-    Payment_1.Payment.find((err, payments) => {
+}), (req, res, next) => {
+    Payment_1.Payment.find({})
+        .populate('house')
+        .exec(function (err, payments) {
         if (err)
             return next(err);
-        res.json(payments || []);
+        res.json(payments);
     });
 });
 exports.api.get('/:id', passport.authenticate('jwt', {
@@ -26,7 +26,8 @@ exports.api.get('/:id', passport.authenticate('jwt', {
     let _id = req.params.id;
     Payment_1.Payment.findOne({
         _id: _id,
-    }, (err, payment) => {
+    }).populate('house')
+        .exec(function (err, payment) {
         if (err)
             return next(err);
         res.json(payment);
@@ -37,13 +38,14 @@ exports.api.post('/', passport.authenticate('jwt', {
 }), function (req, res, next) {
     const token = helper_1.helper.getToken(req.headers);
     const verified = jwt.verify(token, database_1.config.secret);
-    const payment = new Payment_1.Payment(req.body);
+    const { _id, houseId, referenceNo, amount, attachment, filename, paidDate, createdDate, createdBy, updatedDate, updatedBy } = req.body;
     Payment_1.Payment.insertMany([{
-            paidDate: payment.paidDate,
-            referenceNo: payment.referenceNo,
-            amount: payment.amount,
-            attachment: payment.attachment,
-            filename: payment.filename,
+            house: houseId,
+            paidDate: paidDate,
+            referenceNo: referenceNo,
+            amount: amount,
+            attachment: attachment,
+            filename: filename,
             createdDate: new Date(),
             createdBy: verified.username,
             updatedDate: new Date(),
@@ -59,17 +61,17 @@ exports.api.put('/', passport.authenticate('jwt', {
 }), (req, res, next) => {
     const token = helper_1.helper.getToken(req.headers);
     const verified = jwt.verify(token, database_1.config.secret);
-    const updated = new Payment_1.Payment(req.body);
+    const { _id, houseId, referenceNo, amount, attachment, filename, paidDate, createdDate, createdBy, updatedDate, updatedBy } = req.body;
     Payment_1.Payment.findOne({
-        _id: updated._id
+        _id: _id
     }, (err, payment) => {
         if (err)
             return next(err);
-        payment.referenceNo = updated.referenceNo;
-        payment.amount = updated.amount;
-        payment.attachment = updated.attachment;
-        payment.filename = updated.filename;
-        payment.paidDate = updated.paidDate;
+        payment.referenceNo = referenceNo;
+        payment.amount = amount;
+        payment.attachment = attachment;
+        payment.filename = filename;
+        payment.paidDate = paidDate;
         payment.updatedDate = new Date();
         payment.updatedBy = verified.username;
         payment.save();

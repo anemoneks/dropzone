@@ -20,25 +20,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let housePayment of housePayments">
-              <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
-                  housePayment.house.address() }}</a></td>
-              <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
-                  housePayment.payment.referenceNo }}</a></td>
-              <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
-                  housePayment.payment.amount }}</a></td>
-              <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
-                  housePayment.payment.paidDate | date }}</a></td>
-              <td><a href="javascript: void (0);"
-                  (click)="open2(paymentModal, housePayment.payment._id)">{{housePayment.payment.createdDate | date
+            <tr *ngFor="let payment of payments">
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
+                  payment.house.unit }}</a></td>
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
+                  payment.referenceNo }}</a></td>
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
+                  payment.amount }}</a></td>
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
+                  payment.paidDate | date }}</a></td>
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{payment.createdDate | date
                   }}</a></td>
-              <td><a href="javascript: void (0);" (click)="open2(paymentModal, housePayment.payment._id)">{{
-                  housePayment.payment.createdBy }}</a></td>
+              <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
+                  payment.createdBy }}</a></td>
               <td>
                 <div class="pretty p-icon">
                   <input class="form-check-input" type="checkbox" id="gridCheck" (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(housePayment) : null"
-                    [checked]="selection.isSelected(housePayment)">
+                    (change)="$event ? selection.toggle(payment) : null"
+                    [checked]="selection.isSelected(payment)">
                   <div class="state">
                     <i class="icon fa fa-check"></i>
                     <label></label>

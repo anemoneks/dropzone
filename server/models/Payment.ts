@@ -1,6 +1,10 @@
 import * as mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
+  house: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'House'
+  },
   referenceNo: {
     type: String,
     required: true

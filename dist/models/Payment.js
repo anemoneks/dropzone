@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Payment = void 0;
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
+    house: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'House'
+    },
     referenceNo: {
         type: String,
         required: true

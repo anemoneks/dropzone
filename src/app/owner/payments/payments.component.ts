@@ -17,6 +17,7 @@ import { IHouse } from './../../interfaces/i-house';
 import { Options } from 'select2';
 import { Select2OptionData } from 'ng-Select2';
 import { House } from './../../models/house';
+import { IPayment } from 'src/app/interfaces/i-payment';
 
 @Component({
   selector: 'app-payments',
@@ -27,19 +28,17 @@ export class PaymentsComponent implements OnDestroy, OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private Router: Router,
     private HttpClientPaymentService: HttpClientPaymentService,
     private HttpClientHouseService: HttpClientHouseService,
     private modalService: NgbModal,
     private fileUpload: FileUpload,
-    private HttpClientUserService: HttpClientUserService,
   ) {
 
   }
 
   public paymentDetailForm: FormGroup;
 
-  housePayments: IHousePayment[] = [];
+  public payments: IPayment[] = [];
   selection: SelectionModel<IHousePayment> = new SelectionModel<IHousePayment>(true, []);
   dtOptions: DataTables.Settings = {};
   @ViewChild(DataTableDirective, { static: false })
@@ -91,23 +90,14 @@ export class PaymentsComponent implements OnDestroy, OnInit {
         };
       });
 
-    this.HttpClientHouseService.getOwnerHouses()
-      .subscribe(houses => {
-        this.housePayments = [].concat.apply([],
-          (houses.map(h => {
-            return h.payments.map(p => {
-              return {
-                house: new House(h),
-                payment: p,
-              } as IHousePayment;
-            });
-
-          }) || []
-
-          ));
-        // Calling the DT trigger to manually render the table
-        this.dtTrigger.next();
-      });
+    forkJoin([
+      this.HttpClientPaymentService.getPayments(),
+    ]).subscribe(results => {
+      this.payments = (results[0]);
+      
+      // Calling the DT trigger to manually render the table
+      this.dtTrigger.next();
+    });
   }
 
   ngOnDestroy(): void {
@@ -142,7 +132,7 @@ export class PaymentsComponent implements OnDestroy, OnInit {
           .subscribe(
             p => {
               h.payments.push(p[0]);
-              this.housePayments.push({ house: new House(h), payment: p[0] } as IHousePayment);
+              // this.housePayments.push({ house: new House(h), payment: p[0] } as IHousePayment);
               this.rerender();
             },
             err => {
@@ -181,41 +171,6 @@ export class PaymentsComponent implements OnDestroy, OnInit {
       });
   }
 
-  open2(content, paymentId): void {
-    const housePayment = (this.housePayments.filter(x => x.payment?._id == paymentId) || [])[0] || new HousePayment();
-
-    this.paymentDetailForm = this.formBuilder.group({
-      house: this.formBuilder.group(new House(housePayment?.house || new House())),
-      payment: this.formBuilder.group(housePayment?.payment || new Payment()),
-    });
-
-    // Payment Form
-    this.paymentDetailForm.get('house._id').setValidators([Validators.required]);
-
-    this.paymentDetailForm.get('payment.paidDate').setValidators([Validators.required]);
-    this.paymentDetailForm.get('payment.referenceNo').setValidators([Validators.required]);
-    this.paymentDetailForm.get('payment.amount').setValidators([Validators.required, Validators.pattern('^[0-9]*$')]);
-    this.paymentDetailForm.get('payment.filename').setValidators([Validators.required]);
-
-    this.paymentDetailForm.get('house._id').setValue(new House(housePayment.house)._id);
-    this.paymentDetailForm.get('payment._id').setValue(housePayment.payment?._id);
-    this.paymentDetailForm.get('payment.paidDate').setValue(housePayment.payment?.paidDate);
-    this.paymentDetailForm.get('payment.referenceNo').setValue(housePayment.payment?.referenceNo);
-    this.paymentDetailForm.get('payment.amount').setValue(housePayment.payment?.amount);
-    this.paymentDetailForm.get('payment.attachment').setValue(housePayment.payment?.attachment || '');
-    this.paymentDetailForm.get('payment.filename').setValue(housePayment.payment?.filename || '');
-
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title'
-    })
-      .result
-      .then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
-  }
-
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -229,13 +184,6 @@ export class PaymentsComponent implements OnDestroy, OnInit {
   deleteSelected(): void {
     this.selection.selected.forEach(x => {
       this.HttpClientPaymentService.deletePayment(x.payment).subscribe();
-    });
-
-    this.housePayments = this.housePayments.filter(y => {
-      var found = this.selection.selected.filter(z => {
-        return z.payment._id == y.payment._id;
-      }) || [];
-      return found.length <= 0;
     });
 
     this.rerender();

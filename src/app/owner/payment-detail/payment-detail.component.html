@@ -115,7 +115,7 @@
             </div>
             <div class="form-row" *ngIf="paymentDetailForm.get('payment.attachment').value != null">
               <div class="form-group col-3">
-                <div id="container" style="background-image: url({{paymentDetailForm.controls?.payment?.controls?.attachment.value}});">
+                <div id="container" (click)="previewImage();" style="background-image: url({{paymentDetailForm.controls?.payment?.controls?.attachment.value}});">
                   <button id="x" (click)="removeImage();">
                     X
                   </button>

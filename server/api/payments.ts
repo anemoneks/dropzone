@@ -1,29 +1,24 @@
-import * as mongoose from 'mongoose';
-import * as moment from 'moment-timezone';
 import * as passport from 'passport';
-import * as fs from 'fs';
-import { forkJoin } from 'rxjs';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { helper } from './../helper';
 import { config } from './../config/database';
-import { passwordConfig } from './../config/passport';
 import { Payment } from './../models/Payment';
 import { House } from './../models/House';
-
-passwordConfig(passport);
 
 export const api = express();
 
 api.get('/', passport.authenticate('jwt', {
   session: false
-}), function (req, res, next) {
+}), (req, res, next) => {
 
-  Payment.find((err, payments) => {
-    if (err) return next(err);
-    res.json(payments || []);
-  });
+  Payment.find({})
+    .populate('house')
+    .exec(function (err, payments) {
+      if (err) return next(err);
+      res.json(payments);
+    });
 });
 
 api.get('/:id', passport.authenticate('jwt', {
@@ -32,10 +27,11 @@ api.get('/:id', passport.authenticate('jwt', {
   let _id = req.params.id;
   Payment.findOne({
     _id: _id,
-  }, (err, payment) => {
-    if (err) return next(err);
-    res.json(payment);
-  });
+  }).populate('house')
+    .exec(function (err, payment) {
+      if (err) return next(err);
+      res.json(payment);
+    });
 });
 
 api.post('/', passport.authenticate('jwt', {
@@ -45,14 +41,15 @@ api.post('/', passport.authenticate('jwt', {
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
 
-  const payment: any = new Payment(req.body);
+  const { _id, houseId, referenceNo, amount, attachment, filename, paidDate, createdDate, createdBy, updatedDate, updatedBy } = req.body;
 
   Payment.insertMany([{
-    paidDate: payment.paidDate,
-    referenceNo: payment.referenceNo,
-    amount: payment.amount,
-    attachment: payment.attachment,
-    filename: payment.filename,
+    house: houseId,
+    paidDate: paidDate,
+    referenceNo: referenceNo,
+    amount: amount,
+    attachment: attachment,
+    filename: filename,
     createdDate: new Date(),
     createdBy: verified.username,
     updatedDate: new Date(),
@@ -69,17 +66,17 @@ api.put('/', passport.authenticate('jwt', {
 
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
-  const updated: any = new Payment(req.body);
+  const { _id, houseId, referenceNo, amount, attachment, filename, paidDate, createdDate, createdBy, updatedDate, updatedBy } = req.body;
 
   Payment.findOne({
-    _id: updated._id
+    _id: _id
   }, (err, payment: any) => {
     if (err) return next(err);
-    payment.referenceNo = updated.referenceNo;
-    payment.amount = updated.amount;
-    payment.attachment = updated.attachment;
-    payment.filename = updated.filename;
-    payment.paidDate = updated.paidDate;
+    payment.referenceNo = referenceNo;
+    payment.amount = amount;
+    payment.attachment = attachment;
+    payment.filename = filename;
+    payment.paidDate = paidDate;
     payment.updatedDate = new Date();
     payment.updatedBy = verified.username;
     payment.save();

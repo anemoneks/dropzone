@@ -31,6 +31,17 @@ export const OwnerRoutes: Routes = [
         }
       },
       {
+        path: 'payments/edit/:id',
+        component: PaymentDetailComponent,
+        data: {
+          title: 'Payment',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngPayments' },
+          ]
+        }
+      },
+      {
         path: 'Bills',
         component: BillsComponent,
         data: {
