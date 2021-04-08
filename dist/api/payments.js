@@ -67,6 +67,7 @@ exports.api.put('/', passport.authenticate('jwt', {
     }, (err, payment) => {
         if (err)
             return next(err);
+        payment.house = houseId;
         payment.referenceNo = referenceNo;
         payment.amount = amount;
         payment.attachment = attachment;
