@@ -14,6 +14,7 @@ import { IPayment } from './../../interfaces/i-payment';
 import { HttpClientHouseService } from './../../services/http-client-house.service';
 import { forkJoin } from 'rxjs';
 import { FileUpload } from './../../shared/file-upload';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-payment-detail',
@@ -28,6 +29,7 @@ export class PaymentDetailComponent implements OnInit {
   public selectedFiles: Array<string> = new Array<string>();
 
   constructor(
+    private Location: Location,
     public formatter: NgbDateParserFormatter,
     private route: ActivatedRoute,
     private Router: Router,
@@ -132,6 +134,10 @@ export class PaymentDetailComponent implements OnInit {
 
   previewImage(): void {
     alert("to be downloaded");
+  }
+
+  backClicked() {
+    this.Location.back();
   }
 
   removeImage(): void {

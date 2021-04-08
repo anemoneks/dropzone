@@ -22,7 +22,8 @@
           <tbody>
             <tr *ngFor="let payment of payments">
               <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
-                  payment.house.unit }}</a></td>
+                  payment.house.unit }}, {{
+                    payment.house.street }}</a></td>
               <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
                   payment.referenceNo }}</a></td>
               <td><a href="javascript: void (0);" [routerLink]="['/owner/payments/edit/' + payment._id]">{{
