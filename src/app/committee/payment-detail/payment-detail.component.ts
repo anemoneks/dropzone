@@ -25,8 +25,7 @@ import { HttpClientHouseService } from 'src/app/services/http-client-house.servi
 
 @Component({
   selector: 'app-payment-detail',
-  templateUrl: './payment-detail.component.html',
-  styleUrls: ['./payment-detail.component.css']
+  templateUrl: './payment-detail.component.html'
 })
 export class PaymentDetailComponent implements OnInit {
 

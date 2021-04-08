@@ -12,9 +12,11 @@ export class Payment implements IPayment {
     this.createdBy = null;
     this.updatedDate = null;
     this.updatedBy = null;
+    this.houseId = null;
   }
   
   _id: string;
+  houseId: string;
   referenceNo: string;
   amount: number;
   attachment: string;

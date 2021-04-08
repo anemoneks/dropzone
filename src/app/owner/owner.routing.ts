@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 
 import { BillsComponent } from './bills/bills.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
 
-export const GuardsRoutes: Routes = [
+export const OwnerRoutes: Routes = [
   {
     path: '',
     children: [
@@ -12,6 +13,17 @@ export const GuardsRoutes: Routes = [
         component: PaymentsComponent,
         data: {
           title: 'Payments',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngPayments' },
+          ]
+        }
+      },
+      {
+        path: 'payments/new',
+        component: PaymentDetailComponent,
+        data: {
+          title: 'Payment',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngPayments' },

@@ -1,5 +1,6 @@
 export interface IPayment {
   _id: string;
+  houseId: string;
   referenceNo: string;
   amount: number;
   attachment: string;

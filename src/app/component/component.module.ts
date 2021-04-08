@@ -32,7 +32,6 @@ import { RolesComponent } from './administration/roles/roles.component';
 import { RoleDetailComponent } from './administration/role-detail/role-detail.component';
 import { PaymentsComponent } from './administration/payments/payments.component';
 import { PaymentsComponent as PersonalPaymentsComponent } from './personal/payments/payments.component';
-import { PaymentDetailComponent } from './administration/payment-detail/payment-detail.component';
 import { BillsComponent as PersonalBillsComponent } from './personal/bills/bills.component';
 
 @NgModule({
@@ -71,8 +70,6 @@ import { BillsComponent as PersonalBillsComponent } from './personal/bills/bills
     BillsComponent,
     RolesComponent,
     RoleDetailComponent,
-    PaymentsComponent,
-    PaymentDetailComponent,
     PaymentsComponent,
     PersonalPaymentsComponent,
     PersonalBillsComponent,
