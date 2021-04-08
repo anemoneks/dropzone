@@ -1,0 +1,140 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<style>
+  #container {
+    width: 150px;
+    height: 150px;
+    /*border-radius: 25px;*/
+    border: 2px solid Black;
+    padding: 15px 15px 15px 15px;
+    margin: 20px 20px 20px 20px;
+    background: #A4D3EE;
+    overflow: visible;
+    box-shadow: 5px 5px 2px #888888;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+  }
+
+  #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+  }
+</style>
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="receiptDetailForm">
+          <div formGroupName="receipt" class="form-row"
+            *ngIf="f().controls?.receipt?.controls?.houseId?.touched && f().controls?.receipt?.controls?.houseId?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                House must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="receipt" class="form-row"
+            *ngIf="f().controls?.receipt?.controls?.paidDate?.touched && f().controls?.receipt?.controls?.paidDate?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Paid date must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="receipt" class="form-row"
+            *ngIf="f().controls?.receipt?.controls?.referenceNo?.touched && f().controls?.receipt?.controls?.referenceNo?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Reference no must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="receipt" class="form-row"
+            *ngIf="f().controls?.receipt?.controls?.amount?.touched && f().controls?.receipt?.controls?.amount?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Amount must not be empty.
+              </ngb-alert>
+            </div>
+          </div>
+          <div formGroupName="receipt">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="houseId">House</label>
+                <div
+                  [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls?.houseId?.errors?.required }">
+                  <ng-select2 [data]="select2houses" [options]="options" [width]="500" formControlName="houseId">
+                  </ng-select2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div formGroupName="receipt">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="paidDate"
+                    [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls.paidDate?.errors?.required }"
+                    (ngModelChange)="onDateChange($event)" #d3="ngbDatepicker" ngModel
+                    [ngModelOptions]="{standalone: true}">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary no-shadow" (click)="d3.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="referenceNo">Reference No</label>
+                <input class="form-control" formControlName="referenceNo"
+                  [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls?.referenceNo?.errors?.required }"
+                  id="referenceNo" placeholder="Reference No">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="amount">Amount</label>
+                <input class="form-control" formControlName="amount"
+                  [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls?.amount?.errors?.required }"
+                  id="amount" placeholder="Amount">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="attachment">Attachment</label>
+                <input type="file" class="form-control" id="attachment"
+                  [ngClass]="{ 'border border-danger': (receiptDetailForm.controls?.receipt?.controls?.filename?.errors?.required) }"
+                  (change)="handleFileInput($event.target.files)">
+              </div>
+            </div>
+            <div class="form-row" *ngIf="receiptDetailForm.get('receipt.attachment').value != null">
+              <div class="form-group col-3">
+                <div id="container" (click)="previewImage();" style="background-image: url({{receiptDetailForm.controls?.receipt?.controls?.attachment.value}});">
+                  <button id="x" (click)="removeImage();">
+                    X
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col d-flex justify-content-end w-100">
+                <button type="button" (click)="backClicked()" class="btn btn-primary">Back</button>
+                &nbsp;
+                <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->

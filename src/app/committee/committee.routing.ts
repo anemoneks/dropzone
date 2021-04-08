@@ -8,6 +8,8 @@ import { PaymentDetailComponent } from './payment-detail/payment-detail.componen
 import { BillsComponent } from './bills/bills.component';
 import { VisitorsComponent } from '../guard/visitors/visitors.component';
 import { RolesComponent } from '../component/administration/roles/roles.component';
+import { ReceiptsComponent } from './receipts/receipts.component';
+import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -152,6 +154,30 @@ export const CommitteeRoutes: Routes = [
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngVisitors' },
+          ]
+        }
+      },
+      {
+        path: 'receipts',
+        component: ReceiptsComponent,
+        data: {
+          title: 'Receipts',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Payments' }
+          ]
+        }
+      },
+      {
+        path: 'receipts/new',
+        component: ReceiptDetailComponent,
+        data: {
+          title: 'Receipt Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Receipts' }
           ]
         }
       },

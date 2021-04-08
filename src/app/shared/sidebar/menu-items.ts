@@ -74,6 +74,14 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
+        path: '/committee/receipts',
+        title: 'Receipts',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      {
         path: '/committee/roles',
         title: 'Roles',
         icon: 'mdi mdi-cash-usd',

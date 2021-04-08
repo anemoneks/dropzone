@@ -16,6 +16,8 @@ import { PaymentDetailComponent } from './payment-detail/payment-detail.componen
 import { PaymentsComponent } from './payments/payments.component';
 import { UsersComponent } from './users/users.component';
 import { VisitorsComponent } from './visitors/visitors.component';
+import { ReceiptsComponent } from './receipts/receipts.component';
+import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { VisitorsComponent } from './visitors/visitors.component';
     PaymentsComponent,
     PaymentDetailComponent,
     VisitorsComponent,
+    ReceiptsComponent,
+    ReceiptDetailComponent,
   ]
 })
 export class CommitteeModule { }
