@@ -13,6 +13,7 @@ import { forkJoin } from 'rxjs';
 import { FileUpload } from '../../shared/file-upload';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { CustomValidator } from './../../shared/validators/custom-validator';
 
 @Component({
   selector: 'app-bill-detail',
@@ -27,6 +28,7 @@ export class BillDetailComponent implements OnInit {
   public selectedFiles: Array<string> = new Array<string>();
 
   constructor(
+    private CustomValidator: CustomValidator,
     private Location: Location,
     public formatter: NgbDateParserFormatter,
     private route: ActivatedRoute,
@@ -57,6 +59,8 @@ export class BillDetailComponent implements OnInit {
     this.billDetailForm.get('billYear').setValidators([Validators.required]);
     this.billDetailForm.get('attachment').setValidators([Validators.required]);
     this.billDetailForm.get('filename').setValidators([Validators.required]);
+    this.billDetailForm.get('billMonth').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
+    this.billDetailForm.get('billYear').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
 
 
     if (this.billId != '') {

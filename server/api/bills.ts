@@ -34,7 +34,7 @@ api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next)
     amount: amount,
     billMonth: billMonth,
     billYear: billYear,
-    status: 1,
+    status: 0,
     attachment: attachment,
     filename: filename,
   }], (err, bill) => {

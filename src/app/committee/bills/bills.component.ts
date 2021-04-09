@@ -50,7 +50,7 @@ export class BillsComponent implements OnDestroy, OnInit {
 
     this.HttpClientBillService.getBills()
       .subscribe(bills => {
-        
+
         this.bills = bills || [];
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
@@ -72,6 +72,13 @@ export class BillsComponent implements OnDestroy, OnInit {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
+    });
+  }
+
+  changeStatus(bill: IBill): void {
+    bill.status = bill.status ? 0 : 1; 
+    this.HttpClientBillService.updateBill(bill).subscribe(x => {
+      console.log('updated successfully');
     });
   }
 

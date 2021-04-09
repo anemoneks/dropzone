@@ -3,6 +3,7 @@ import { AbstractControl, AsyncValidatorFn } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { map, debounceTime, take, switchMap } from "rxjs/operators";
 import { HttpClientUserService } from "./../../services/http-client-user.service";
+import { HttpClientBillService } from "./../../services/http-client-bill.service";
 import { IBill } from "./../../interfaces/i-bill";
 
 function isEmptyInputValue(value: any): boolean {
@@ -16,7 +17,8 @@ function isEmptyInputValue(value: any): boolean {
 
 export class CustomValidator {
   constructor(
-    private HttpClientUserService: HttpClientUserService
+    private HttpClientUserService: HttpClientUserService,
+    private HttpClientBillService: HttpClientBillService,
   ) { }
 
   usernameInUsedValidator(_username: String = ""): AsyncValidatorFn {
@@ -55,7 +57,7 @@ export class CustomValidator {
       | Observable<{ [key: string]: any } | null> => {
 
       let matchingControl = control.parent.controls[(matchingControlName || '') as string] as AbstractControl;
-      
+
       if (isEmptyInputValue(control.value)) {
         return of(null);
       } if ((control.value || '') == (matchingControl.value || '')) {
@@ -116,7 +118,7 @@ export class CustomValidator {
     };
   }
 
-  billPeriodValidator(bills: IBill[] = [], _id: string, _billMonth: number, _billYear: number): AsyncValidatorFn {
+  billPeriodValidator(_id: string, _billMonth: number, _billYear: number): AsyncValidatorFn {
     return (
       control: AbstractControl
     ):
@@ -126,17 +128,21 @@ export class CustomValidator {
       if (_billMonth == null || _billYear == null)
         return of(null);
 
-      let billMonthControl = control.parent.controls['billMonth'] as AbstractControl;
-      let billYearControl = control.parent.controls['billYear'] as AbstractControl;
+      return this.HttpClientBillService.getBills().map(bills => {
 
-      const filtered = bills.filter(x => {
-        if ((_id || '') == '')
-          return x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+        const billMonthControl = control.parent.controls['billMonth'] as AbstractControl;
+        const billYearControl = control.parent.controls['billYear'] as AbstractControl;
 
-        return !(x.billMonth == _billMonth && x.billYear == _billYear) && x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+        const filtered = bills.filter(x => {
+          if ((_id || '') == '')
+            return x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+
+          return !(x.billMonth == _billMonth && x.billYear == _billYear) && x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+        });
+        const validation = filtered.length <= 0 ? null : { billPeriod: { value: control.value } };
+
+        return validation;
       });
-      const validation = filtered.length <= 0 ? null : { billPeriod: { value: control.value } };
-      return of(validation);
     };
   }
 }
