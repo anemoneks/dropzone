@@ -16,6 +16,8 @@ exports.api.get('/owner', passport.authenticate('jwt', { session: false }), (req
     var token = helper_1.helper.getToken(req.headers);
     var verified = jwt.verify(token, database_1.config.secret);
     House_1.House.find({ users: { $in: [verified._id] } }, (err, houses) => {
+        if (err)
+            return next(err);
         rxjs_1.forkJoin([
             Bill_1.Bill.find({ house: { $in: houses } }),
             Payment_1.Payment.find({ house: { $in: houses } }),

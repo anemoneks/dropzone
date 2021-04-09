@@ -19,6 +19,7 @@ api.get('/owner', passport.authenticate('jwt', { session: false }),
 
     House.find({ users: { $in: [verified._id] } },
       (err, houses) => {
+        if (err) return next(err);
 
         forkJoin([
           Bill.find({ house: { $in: houses } }),
