@@ -40,10 +40,10 @@
             </div>
           </div>
           <div formGroupName="receipt" class="form-row"
-            *ngIf="f().controls?.receipt?.controls?.paidDate?.touched && f().controls?.receipt?.controls?.paidDate?.errors?.required">
+            *ngIf="f().controls?.receipt?.controls?.issuedDate?.touched && f().controls?.receipt?.controls?.issuedDate?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
-                Paid date must not be empty.
+                Issued date must not be empty.
               </ngb-alert>
             </div>
           </div>
@@ -63,6 +63,14 @@
               </ngb-alert>
             </div>
           </div>
+          <div formGroupName="receipt" class="form-row"
+            *ngIf="f().controls?.receipt?.controls?.filename?.touched && f().controls?.receipt?.controls?.filename?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Receipt must be uploaded.
+              </ngb-alert>
+            </div>
+          </div>
           <div formGroupName="receipt">
             <div class="form-row">
               <div class="form-group col-12">
@@ -79,8 +87,8 @@
             <div class="form-row">
               <div class="form-group col-12">
                 <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="paidDate"
-                    [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls.paidDate?.errors?.required }"
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="issuedDate"
+                    [ngClass]="{ 'border border-danger': receiptDetailForm.controls?.receipt?.controls.issuedDate?.errors?.required }"
                     (ngModelChange)="onDateChange($event)" #d3="ngbDatepicker" ngModel
                     [ngModelOptions]="{standalone: true}">
                   <div class="input-group-append">
@@ -107,7 +115,7 @@
             </div>
             <div class="form-row">
               <div class="form-group col-12">
-                <label for="attachment">Attachment</label>
+                <label for="attachment">Receipt</label>
                 <input type="file" class="form-control" id="attachment"
                   [ngClass]="{ 'border border-danger': (receiptDetailForm.controls?.receipt?.controls?.filename?.errors?.required) }"
                   (change)="handleFileInput($event.target.files)">
@@ -115,7 +123,8 @@
             </div>
             <div class="form-row" *ngIf="receiptDetailForm.get('receipt.attachment').value != null">
               <div class="form-group col-3">
-                <div id="container" (click)="previewImage();" style="background-image: url({{receiptDetailForm.controls?.receipt?.controls?.attachment.value}});">
+                <div id="container" (click)="previewImage();"
+                  style="background-image: url({{receiptDetailForm.controls?.receipt?.controls?.attachment.value}});">
                   <button id="x" (click)="removeImage();">
                     X
                   </button>

@@ -18,6 +18,7 @@ import { UsersComponent } from './users/users.component';
 import { VisitorsComponent } from './visitors/visitors.component';
 import { ReceiptsComponent } from './receipts/receipts.component';
 import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
+import { BillDetailComponent } from './bill-detail/bill-detail.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.componen
     RolesComponent,
     RoleDetailComponent,
     BillsComponent,
+    BillDetailComponent,
     PaymentsComponent,
     PaymentDetailComponent,
     VisitorsComponent,

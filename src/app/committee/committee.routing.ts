@@ -10,6 +10,7 @@ import { VisitorsComponent } from '../guard/visitors/visitors.component';
 import { RolesComponent } from '../component/administration/roles/roles.component';
 import { ReceiptsComponent } from './receipts/receipts.component';
 import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
+import { BillDetailComponent } from './bill-detail/bill-detail.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -124,6 +125,30 @@ export const CommitteeRoutes: Routes = [
         }
       },
       {
+        path: 'bills/new',
+        component: BillDetailComponent,
+        data: {
+          title: 'Bill Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Bills' }
+          ]
+        }
+      },
+      {
+        path: 'bills/edit/:id',
+        component: BillDetailComponent,
+        data: {
+          title: 'Bill Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Bills' }
+          ]
+        }
+      },
+      {
         path: 'payments',
         component: PaymentsComponent,
         data: {
@@ -171,6 +196,18 @@ export const CommitteeRoutes: Routes = [
       },
       {
         path: 'receipts/new',
+        component: ReceiptDetailComponent,
+        data: {
+          title: 'Receipt Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Receipts' }
+          ]
+        }
+      },
+      {
+        path: 'receipts/edit/:id',
         component: ReceiptDetailComponent,
         data: {
           title: 'Receipt Detail',

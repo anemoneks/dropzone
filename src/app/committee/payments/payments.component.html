@@ -29,7 +29,8 @@
                   payment.amount }}</a></td>
               <td><a href="javascript: void (0);" [routerLink]="['/committee/payments/edit/' + payment._id]">{{
                   payment.paidDate | date }}</a></td>
-              <td><a href="javascript: void (0);" [routerLink]="['/committee/payments/edit/' + payment._id]">{{payment.createdDate | date
+              <td><a href="javascript: void (0);"
+                  [routerLink]="['/committee/payments/edit/' + payment._id]">{{payment.createdDate | date
                   }}</a></td>
               <td><a href="javascript: void (0);" [routerLink]="['/committee/payments/edit/' + payment._id]">{{
                   payment.createdBy }}</a></td>
@@ -49,7 +50,8 @@
             <tr>
               <th colspan="7">
                 <div class="d-flex justify-content-end w-100">
-                  <div class="p-2"><button type="button" class="btn btn-primary" routerLink="/committee/payments/new">Add New</button>
+                  <div class="p-2"><button type="button" class="btn btn-primary"
+                      routerLink="/committee/payments/new">Add New</button>
                   </div>
 
                   <div class="p-2"><button type="button" class="btn btn-primary" (click)="deleteSelected()"

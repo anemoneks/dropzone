@@ -8,20 +8,36 @@ passwordConfig(passport);
 export const api = express();
 
 api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  Bill.find(function (err, bills) {
+  Bill.find((err, bills) => {
     if (err) return next(err);
     res.json(bills || []);
   });
 });
 
+api.get('/:id', passport.authenticate('jwt', {
+  session: false
+}), (req, res, next) => {
+  let _id = req.params.id;
+  Bill.findOne({
+    _id: _id,
+  }).populate('house')
+    .exec(function (err, bill) {
+      if (err) return next(err);
+      res.json(bill);
+    });
+});
+
 api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  const bill = new Bill(req.body);
+  const { houseId, invoiceNo, amount, billMonth, billYear, attachment, filename } = (req.body);
   Bill.insertMany([{
-    invoiceNo: bill.invoiceNo,
-    amount: bill.amount,
-    billMonth: bill.billMonth,
-    billYear: bill.billYear,
-    status: bill.status,
+    house: houseId,
+    invoiceNo: invoiceNo,
+    amount: amount,
+    billMonth: billMonth,
+    billYear: billYear,
+    status: 1,
+    attachment: attachment,
+    filename: filename,
   }], (err, bill) => {
     if (err) return next(err);
     res.json(bill);
@@ -29,14 +45,16 @@ api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next)
 });
 
 api.put('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  const bill = new Bill(req.body);
-  Bill.findOne({ _id: bill._id }, (err, bill) => {
+  const { houseId, _id, invoiceNo, amount, billMonth, billYear, status, attachment, filename } = req.body;
+  Bill.findOne({ _id: _id }, (err, bill) => {
     if (err) return next(err);
-    bill.invoiceNo = bill.invoiceNo;
-    bill.amount = bill.amount;
-    bill.billMonth = bill.billMonth;
-    bill.billYear = bill.billYear;
-    bill.status = bill.status;
+    bill.house = houseId;
+    bill.invoiceNo = invoiceNo;
+    bill.amount = amount;
+    bill.billMonth = billMonth;
+    bill.billYear = billYear;
+    bill.attachment = attachment;
+    bill.filename = filename;
     bill.save();
     res.json(bill);
   });

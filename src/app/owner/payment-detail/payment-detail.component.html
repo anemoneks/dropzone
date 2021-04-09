@@ -63,6 +63,14 @@
               </ngb-alert>
             </div>
           </div>
+          <div formGroupName="payment" class="form-row"
+            *ngIf="f().controls?.payment?.controls?.filename?.touched && f().controls?.payment?.controls?.filename?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Receipt must be uploaded.
+              </ngb-alert>
+            </div>
+          </div>
           <div formGroupName="payment">
             <div class="form-row">
               <div class="form-group col-12">
@@ -107,7 +115,7 @@
             </div>
             <div class="form-row">
               <div class="form-group col-12">
-                <label for="attachment">Attachment</label>
+                <label for="attachment">Receipt</label>
                 <input type="file" class="form-control" id="attachment"
                   [ngClass]="{ 'border border-danger': (paymentDetailForm.controls?.payment?.controls?.filename?.errors?.required) }"
                   (change)="handleFileInput($event.target.files)">
@@ -115,7 +123,8 @@
             </div>
             <div class="form-row" *ngIf="paymentDetailForm.get('payment.attachment').value != null">
               <div class="form-group col-3">
-                <div id="container" (click)="previewImage();" style="background-image: url({{paymentDetailForm.controls?.payment?.controls?.attachment.value}});">
+                <div id="container" (click)="previewImage();"
+                  style="background-image: url({{paymentDetailForm.controls?.payment?.controls?.attachment.value}});">
                   <button id="x" (click)="removeImage();">
                     X
                   </button>

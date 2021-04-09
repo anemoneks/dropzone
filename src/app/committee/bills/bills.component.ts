@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { BillStatus } from './../../enums/bill-status.enum';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-bills',
@@ -28,6 +29,7 @@ export class BillsComponent implements OnDestroy, OnInit {
 
   constructor(
     private Router: Router,
+    private Location: Location,
     private HttpClientBillService: HttpClientBillService,
     private HttpClientHouseService: HttpClientHouseService) {
 
@@ -51,6 +53,10 @@ export class BillsComponent implements OnDestroy, OnInit {
       // Calling the DT trigger to manually render the table
       this.dtTrigger.next();
     });
+  }
+
+  backClicked() {
+    this.Location.back();
   }
 
   ngOnDestroy(): void {

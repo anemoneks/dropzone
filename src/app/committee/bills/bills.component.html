@@ -18,9 +18,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let bill of bills">
-              <td><a [routerLink]="['/component/administration/bills/edit/' + bill._id]">{{ bill.invoiceNo }}</a></td>
-              <td><a [routerLink]="['/component/administration/bills/edit/' + bill._id]">{{ bill.amount }}</a></td>
-              <td><a [routerLink]="['/component/administration/bills/edit/' + bill._id]">{{ billStatus[bill.status] }}</a></td>
+              <td><a [routerLink]="['/committee/bills/edit/' + bill._id]">{{ bill.invoiceNo }}</a></td>
+              <td><a [routerLink]="['/committee/bills/edit/' + bill._id]">{{ bill.amount }}</a></td>
+              <td><a [routerLink]="['/committee/bills/edit/' + bill._id]">{{ billStatus[bill.status]
+                  }}</a></td>
               <td>
                 <div class="pretty p-icon">
                   <input class="form-check-input" type="checkbox" id="gridCheck" (click)="$event.stopPropagation()"
@@ -37,6 +38,8 @@
             <tr>
               <th colspan="4">
                 <div class="d-flex justify-content-end w-100">
+                  <div class="p-2"><button type="button" class="btn btn-primary" routerLink="/committee/bills/new">Add
+                      New</button></div>
                   <div class="p-2"><button type="button" class="btn btn-primary" (click)="deleteSelected()"
                       [disabled]="(selection.selected || []).length <= 0">Delete</button></div>
                 </div>

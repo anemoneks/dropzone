@@ -8,20 +8,36 @@ const Bill_1 = require("./../models/Bill");
 passport_1.passwordConfig(passport);
 exports.api = express();
 exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Bill_1.Bill.find(function (err, bills) {
+    Bill_1.Bill.find((err, bills) => {
         if (err)
             return next(err);
         res.json(bills || []);
     });
 });
+exports.api.get('/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res, next) => {
+    let _id = req.params.id;
+    Bill_1.Bill.findOne({
+        _id: _id,
+    }).populate('house')
+        .exec(function (err, bill) {
+        if (err)
+            return next(err);
+        res.json(bill);
+    });
+});
 exports.api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    const bill = new Bill_1.Bill(req.body);
+    const { houseId, invoiceNo, amount, billMonth, billYear, attachment, filename } = (req.body);
     Bill_1.Bill.insertMany([{
-            invoiceNo: bill.invoiceNo,
-            amount: bill.amount,
-            billMonth: bill.billMonth,
-            billYear: bill.billYear,
-            status: bill.status,
+            house: houseId,
+            invoiceNo: invoiceNo,
+            amount: amount,
+            billMonth: billMonth,
+            billYear: billYear,
+            status: 1,
+            attachment: attachment,
+            filename: filename,
         }], (err, bill) => {
         if (err)
             return next(err);
@@ -29,15 +45,17 @@ exports.api.post('/', passport.authenticate('jwt', { session: false }), (req, re
     });
 });
 exports.api.put('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    const bill = new Bill_1.Bill(req.body);
-    Bill_1.Bill.findOne({ _id: bill._id }, (err, bill) => {
+    const { houseId, _id, invoiceNo, amount, billMonth, billYear, status, attachment, filename } = req.body;
+    Bill_1.Bill.findOne({ _id: _id }, (err, bill) => {
         if (err)
             return next(err);
-        bill.invoiceNo = bill.invoiceNo;
-        bill.amount = bill.amount;
-        bill.billMonth = bill.billMonth;
-        bill.billYear = bill.billYear;
-        bill.status = bill.status;
+        bill.house = houseId;
+        bill.invoiceNo = invoiceNo;
+        bill.amount = amount;
+        bill.billMonth = billMonth;
+        bill.billYear = billYear;
+        bill.attachment = attachment;
+        bill.filename = filename;
         bill.save();
         res.json(bill);
     });

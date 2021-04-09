@@ -31,9 +31,9 @@ export class HttpClientBillService extends BillService {
   }
 
   // This get-by-id will 404 when id not found
-  getBill(id: number): Observable<IBill> {
+  getBill(id: string): Observable<IBill> {
     const url = `${this.billsUrl}/${id}`;
-    return this.http.get<IBill>(url).pipe(
+    return this.http.get<IBill>(url, cudOptions).pipe(
       catchError(this.handleError)
     );
   }
@@ -71,8 +71,8 @@ export class HttpClientBillService extends BillService {
     );
   }
 
-  updateBill(hero: IBill): Observable<null | IBill> {
-    return this.http.put<IBill>(this.billsUrl, hero, cudOptions).pipe(
+  updateBill(bill: IBill): Observable<null | IBill> {
+    return this.http.put<IBill>(this.billsUrl, bill, cudOptions).pipe(
       catchError(this.handleError)
     );
   }

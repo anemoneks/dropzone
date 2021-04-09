@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bill = void 0;
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
+    house: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'House',
+        required: true,
+    },
     invoiceNo: {
         type: String,
         required: true
@@ -21,6 +26,14 @@ const schema = new mongoose.Schema({
     },
     status: {
         type: Number,
+        required: true
+    },
+    attachment: {
+        type: String,
+        required: true
+    },
+    filename: {
+        type: String,
         required: true
     },
 });
