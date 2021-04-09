@@ -128,10 +128,12 @@ export class CustomValidator {
       if (_billMonth == null || _billYear == null)
         return of(null);
 
-      return this.HttpClientBillService.getBills().map(bills => {
-
+      return this.HttpClientBillService.getBills().map(x => {
+        const houseIdControl = control.parent.controls['houseId'] as AbstractControl;
         const billMonthControl = control.parent.controls['billMonth'] as AbstractControl;
         const billYearControl = control.parent.controls['billYear'] as AbstractControl;
+        
+        const bills = x.filter(x => (x as any).house?._id == houseIdControl.value) || [];
 
         const filtered = bills.filter(x => {
           if ((_id || '') == '')

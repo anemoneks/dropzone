@@ -52,29 +52,39 @@ export class BillDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.billDetailForm.get('houseId').setValidators([Validators.required]);
-    this.billDetailForm.get('invoiceNo').setValidators([Validators.required]);
-    this.billDetailForm.get('amount').setValidators([Validators.required, Validators.pattern('^[1-9][0-9]*(\.[0-9]+)?$')]);
-    this.billDetailForm.get('billMonth').setValidators([Validators.required]);
-    this.billDetailForm.get('billYear').setValidators([Validators.required]);
-    this.billDetailForm.get('attachment').setValidators([Validators.required]);
-    this.billDetailForm.get('filename').setValidators([Validators.required]);
-    this.billDetailForm.get('billMonth').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
-    this.billDetailForm.get('billYear').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
+    this.f().get('houseId').setValidators([Validators.required]);
+    this.f().get('invoiceNo').setValidators([Validators.required]);
+    this.f().get('amount').setValidators([Validators.required, Validators.pattern('^[1-9][0-9]*(\.[0-9]+)?$')]);
+    this.f().get('billMonth').setValidators([Validators.required]);
+    this.f().get('billYear').setValidators([Validators.required]);
+    this.f().get('attachment').setValidators([Validators.required]);
+    this.f().get('filename').setValidators([Validators.required]);
+    this.f().get('billMonth').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
+    this.f().get('billYear').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
 
 
     if (this.billId != '') {
       this.HttpClientBillService.getBill(this.billId)
         .subscribe(x => {
-          this.billDetailForm.get('_id').setValue(x._id || null);
-          this.billDetailForm.get('houseId').setValue((x as any).house?._id || null);
-          this.billDetailForm.get('invoiceNo').setValue(x.invoiceNo || null);
-          this.billDetailForm.get('amount').setValue(x.amount || null);
-          this.billDetailForm.get('billMonth').setValue(x.billMonth || null);
-          this.billDetailForm.get('billYear').setValue(x.billYear || null);
-          this.billDetailForm.get('filename').setValue(x.filename || null);
-          this.billDetailForm.get('attachment').setValue(x.attachment || null);
+          this.f().get('_id').setValue(x._id || null);
+          this.f().get('houseId').setValue((x as any).house?._id || null);
+          this.f().get('invoiceNo').setValue(x.invoiceNo || null);
+          this.f().get('amount').setValue(x.amount || null);
+          this.f().get('billMonth').setValue(x.billMonth || null);
+          this.f().get('billYear').setValue(x.billYear || null);
+          this.f().get('filename').setValue(x.filename || null);
+          this.f().get('attachment').setValue(x.attachment || null);
         });
+    }
+    else {
+      this.f().get('_id').setValue(null);
+      this.f().get('houseId').setValue(null);
+      this.f().get('invoiceNo').setValue(null);
+      this.f().get('amount').setValue(null);
+      this.f().get('billMonth').setValue(null);
+      this.f().get('billYear').setValue(null);
+      this.f().get('filename').setValue(null);
+      this.f().get('attachment').setValue(null);
     }
 
     this.HttpClientHouseService.getHouses()
@@ -121,17 +131,17 @@ export class BillDetailComponent implements OnInit {
   }
 
   onBillMonthChange(): void {
-    this.billDetailForm.controls.billMonth.updateValueAndValidity();
-    this.billDetailForm.controls.billYear.updateValueAndValidity();
+    this.f().controls.billMonth.updateValueAndValidity();
+    this.f().controls.billYear.updateValueAndValidity();
   }
 
   onBillYearChange(): void {
-    this.billDetailForm.controls.billYear.updateValueAndValidity();
-    this.billDetailForm.controls.billMonth.updateValueAndValidity();
+    this.f().controls.billYear.updateValueAndValidity();
+    this.f().controls.billMonth.updateValueAndValidity();
   }
 
   onDateChange(date: NgbDateStruct) {
-    this.billDetailForm.get('issuedDate').setValue(new Date(date.year, date.month - 1, date.day));
+    this.f().get('issuedDate').setValue(new Date(date.year, date.month - 1, date.day));
   }
 
   onSelect(event) {
@@ -157,8 +167,8 @@ export class BillDetailComponent implements OnInit {
     const file = files[0];
     forkJoin([this.fileUpload.toBase64(file)])
       .subscribe(value => {
-        this.billDetailForm.get('attachment').setValue(value[0]);
-        this.billDetailForm.get('filename').setValue(file.name);
+        this.f().get('attachment').setValue(value[0]);
+        this.f().get('filename').setValue(file.name);
       });
   }
 
@@ -171,8 +181,8 @@ export class BillDetailComponent implements OnInit {
   }
 
   removeImage(): void {
-    this.billDetailForm.get('attachment').setValue(null);
-    this.billDetailForm.get('filename').setValue(null);
+    this.f().get('attachment').setValue(null);
+    this.f().get('filename').setValue(null);
   }
 
   save(): void {

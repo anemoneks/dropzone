@@ -31,21 +31,21 @@
     <div class="card">
       <div class="card-body">
         <form [formGroup]="billDetailForm">
-          <div class="form-row" *ngIf="billDetailForm.controls.invoiceNo?.errors?.required">
+          <div class="form-row" *ngIf="f().controls.invoiceNo?.touched && f().controls.invoiceNo?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Invoice no must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="billDetailForm.controls.amount?.errors?.required">
+          <div class="form-row" *ngIf="f().controls.amount?.touched && f().controls.amount?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Amount must not be empty.
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="billDetailForm.controls.amount?.errors?.pattern">
+          <div class="form-row" *ngIf="f().controls.amount?.touched && f().controls.amount?.errors?.pattern">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Amount must be number.
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="form-row"
-            *ngIf="billDetailForm.controls.billMonth?.errors?.billPeriod || billDetailForm.controls.billYear?.errors?.billPeriod">
+            *ngIf="f().controls.billMonth?.touched && (f().controls.billMonth?.errors?.billPeriod || f().controls.billYear?.errors?.billPeriod)">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Bill period already exists.
@@ -61,7 +61,23 @@
             </div>
           </div>
           <div class="form-row"
-            *ngIf="billDetailForm.controls.filename?.touched && billDetailForm.controls.filename?.errors?.required">
+            *ngIf="f().controls.billMonth?.touched && f().controls.billMonth?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Bill month must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row"
+          *ngIf="f().controls.billYear?.touched && f().controls.billYear?.errors?.required">
+          <div class="col-md-12">
+            <ngb-alert [dismissible]="false">
+              Bill year must be selected.
+            </ngb-alert>
+          </div>
+        </div>
+          <div class="form-row"
+            *ngIf="f().controls.filename?.touched && f().controls.filename?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Receipt must be uploaded.
@@ -72,8 +88,7 @@
           <div class="form-row">
             <div class="form-group col-12">
               <label for="houseId">House</label>
-              <div
-                [ngClass]="{ 'border border-danger': f().controls?.houseId?.errors?.required }">
+              <div [ngClass]="{ 'border border-danger': f().controls?.houseId?.errors?.required }">
                 <ng-select2 [data]="select2houses" [options]="options" [width]="500" formControlName="houseId">
                 </ng-select2>
               </div>
@@ -84,8 +99,8 @@
             <div class="form-group col-md-6">
               <label for="invoiceNo">Invoice No</label>
               <input class="form-control" formControlName="invoiceNo"
-                [ngClass]="{ 'border border-danger': f().controls.invoiceNo.errors?.required }"
-                id="invoiceNo" placeholder="Invoice No">
+                [ngClass]="{ 'border border-danger': f().controls.invoiceNo.errors?.required }" id="invoiceNo"
+                placeholder="Invoice No">
             </div>
             <div class="form-group col-md-6">
               <label for="amount">Amount</label>
@@ -99,7 +114,8 @@
               <label>Period Month</label>
               <select class="form-control" id="billMonth" [compareWith]="compareFn" formControlName="billMonth"
                 (change)="onBillMonthChange()"
-                [ngClass]="{ 'border border-danger': f().controls.billMonth.errors?.billPeriod }">
+                [ngClass]="{ 'border border-danger': f().controls.billMonth.errors?.billPeriod || f().controls.billMonth.errors?.required }">
+                <option value=""></option>
                 <option *ngFor="let month of months" [ngValue]="month.id">
                   {{ month.text }}
                 </option>
@@ -108,7 +124,8 @@
             <div class="form-group col-md-6">
               <label for="billYear">Period Year</label>
               <select class="form-control" id="billYear" formControlName="billYear" (change)="onBillMonthChange()"
-                [ngClass]="{ 'border border-danger': f().controls.billYear.errors?.billPeriod }">
+                [ngClass]="{ 'border border-danger': f().controls.billYear.errors?.billPeriod || f().controls.billYear.errors?.required }">
+                <option value=""></option>
                 <option *ngFor="let year of years" [value]="year">{{ year }}</option>
               </select>
             </div>

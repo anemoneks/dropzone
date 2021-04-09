@@ -54,6 +54,7 @@ api.put('/', passport.authenticate('jwt', { session: false }), (req, res, next) 
     bill.billYear = billYear;
     bill.attachment = attachment;
     bill.filename = filename;
+    bill.status = status;
     bill.save();
     res.json(bill);
   });
