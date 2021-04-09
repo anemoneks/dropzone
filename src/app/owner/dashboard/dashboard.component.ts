@@ -58,7 +58,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
     forkJoin([this.HttpClientDashboardService.getDashboard()])
       .subscribe(results => {
-        console.log(results[0]);
         this.dashboard = results[0];
       })
 

@@ -4,22 +4,35 @@ exports.api = void 0;
 const passport = require("passport");
 const express = require("express");
 const Bill_1 = require("./../models/Bill");
+const Payment_1 = require("./../models/Payment");
+const House_1 = require("./../models/House");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
+const helper_1 = require("./../helper");
+const jwt = require("jsonwebtoken");
+const database_1 = require("../config/database");
 exports.api = express();
 exports.api.get('/owner', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    rxjs_1.forkJoin([
-        Bill_1.Bill.find({})
-    ])
-        .pipe(operators_1.catchError((error) => {
-        console.log(error);
-        return rxjs_1.throwError(error);
-    }))
-        .subscribe(results => {
-        const bills = results[0];
-        const outstanding = (bills || []).map(x => x.amount || 0).reduce((a, b) => a + b, 0);
-        res.json({
-            outstanding: outstanding,
+    var token = helper_1.helper.getToken(req.headers);
+    var verified = jwt.verify(token, database_1.config.secret);
+    House_1.House.find({ users: { $in: [verified._id] } }, (err, houses) => {
+        rxjs_1.forkJoin([
+            Bill_1.Bill.find({ house: { $in: houses } }),
+            Payment_1.Payment.find({ house: { $in: houses } }),
+        ])
+            .pipe(operators_1.catchError((error) => {
+            console.log(error);
+            return rxjs_1.throwError(error);
+        }))
+            .subscribe(results => {
+            const bills = results[0] || [];
+            const payments = results[1] || [];
+            const outstanding = bills.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
+            const paid = payments.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
+            res.json({
+                outstanding: outstanding,
+                paid: paid,
+            });
         });
     });
 });
