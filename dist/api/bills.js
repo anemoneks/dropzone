@@ -5,23 +5,10 @@ const passport = require("passport");
 const express = require("express");
 const Bill_1 = require("./../models/Bill");
 exports.api = express();
-exports.api.get('/owner/dashboard', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Bill_1.Bill.find((err, bills) => {
-        if (err)
-            return next(err);
-        const outstandingBalance = ((bills || []).map(x => {
-            return x.amount || 0;
-        }) || [])
-            .reduce((a, b) => {
-            return a + b;
-        }, 0);
-        res.json({
-            outstandingBalance: outstandingBalance,
-        });
-    });
-});
 exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Bill_1.Bill.find((err, bills) => {
+    Bill_1.Bill.find()
+        .populate('house')
+        .exec((err, bills) => {
         if (err)
             return next(err);
         res.json(bills || []);

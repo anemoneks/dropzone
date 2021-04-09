@@ -48,11 +48,13 @@ export class BillsComponent implements OnDestroy, OnInit {
       lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
     };
 
-    this.HttpClientBillService.getBills().subscribe(bills => {
-      this.bills = bills || [];
-      // Calling the DT trigger to manually render the table
-      this.dtTrigger.next();
-    });
+    this.HttpClientBillService.getBills()
+      .subscribe(bills => {
+        
+        this.bills = bills || [];
+        // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
+      });
   }
 
   backClicked() {

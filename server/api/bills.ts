@@ -4,30 +4,14 @@ import { Bill } from './../models/Bill';
 
 export const api = express();
 
-api.get('/owner/dashboard', passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    Bill.find((err, bills) => {
-      if (err) return next(err);
-
-      const outstandingBalance = ((bills || []).map(x => {
-        return x.amount || 0;
-      }) || [])
-        .reduce((a, b) => {
-          return a + b;
-        }, 0);
-
-      res.json({
-        outstandingBalance: outstandingBalance,
-      });
-    });
-  });
-
 api.get('/', passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    Bill.find((err, bills) => {
-      if (err) return next(err);
-      res.json(bills || []);
-    });
+    Bill.find()
+      .populate('house')
+      .exec((err, bills) => {
+        if (err) return next(err);
+        res.json(bills || []);
+      });
   });
 
 api.get('/:id', passport.authenticate('jwt', { session: false }),
