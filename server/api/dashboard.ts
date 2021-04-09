@@ -14,8 +14,8 @@ export const api = express();
 api.get('/owner', passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
 
-    var token = helper.getToken(req.headers);
-    var verified = jwt.verify(token, config.secret);
+    const token = helper.getToken(req.headers);
+    const verified = jwt.verify(token, config.secret);
 
     House.find({ users: { $in: [verified._id] } },
       (err, houses) => {

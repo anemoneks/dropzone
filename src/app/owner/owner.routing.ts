@@ -54,7 +54,7 @@ export const OwnerRoutes: Routes = [
         }
       },
       {
-        path: 'Bills',
+        path: 'bills',
         component: BillsComponent,
         data: {
           title: 'Bills',

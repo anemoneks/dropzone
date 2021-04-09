@@ -30,6 +30,13 @@ export class HttpClientBillService extends BillService {
     );
   }
 
+  getOwnerBills(): Observable<IBill[]> {
+    return this.http.get<IBill[]>(this.billsUrl + '/owner', cudOptions).pipe(
+      // tap(data => console.log(data)), // eyeball results in the console
+      catchError(this.handleError)
+    );
+  }
+
   // This get-by-id will 404 when id not found
   getBill(id: string): Observable<IBill> {
     const url = `${this.billsUrl}/${id}`;

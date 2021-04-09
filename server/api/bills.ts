@@ -1,6 +1,10 @@
 import * as passport from 'passport';
 import * as express from 'express';
 import { Bill } from './../models/Bill';
+import { House } from './../models/House';
+import { helper } from './../helper';
+import * as jwt from 'jsonwebtoken';
+import { config } from '../config/database';
 
 export const api = express();
 
@@ -11,6 +15,24 @@ api.get('/', passport.authenticate('jwt', { session: false }),
       .exec((err, bills) => {
         if (err) return next(err);
         res.json(bills || []);
+      });
+  });
+
+api.get('/owner', passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+
+    const token = helper.getToken(req.headers);
+    const verified = jwt.verify(token, config.secret);
+
+    House.find({ users: { $in: [verified._id] } },
+      (err, houses) => {
+        if (err) return next(err);
+        Bill.find({ house: { $in: houses } })
+          .populate('house')
+          .exec((err, bills) => {
+            if (err) return next(err);
+            res.json(bills || []);
+          });
       });
   });
 

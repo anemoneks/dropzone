@@ -10,4 +10,5 @@ export abstract class BillService {
   abstract deleteBill(bill: IBill | string): Observable<IBill>;
   abstract searchBills(term: string): Observable<IBill[]>;
   abstract updateBill(bill: IBill): Observable<IBill>;
+  abstract getOwnerBills(): Observable<IBill[]>;
 }
