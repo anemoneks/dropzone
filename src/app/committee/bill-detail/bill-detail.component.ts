@@ -30,7 +30,7 @@ export class BillDetailComponent implements OnInit {
   constructor(
     private CustomValidator: CustomValidator,
     private Location: Location,
-    public formatter: NgbDateParserFormatter,
+    private formatter: NgbDateParserFormatter,
     private route: ActivatedRoute,
     private Router: Router,
     private formBuilder: FormBuilder,
@@ -200,7 +200,6 @@ export class BillDetailComponent implements OnInit {
         billYear: this.f().get('billYear').value,
         attachment: this.f().get('attachment').value,
         filename: this.f().get('filename').value,
-        status: this.f().get('status').value,
       } as IBill;
 
       if ((bill._id || '') == '') {
