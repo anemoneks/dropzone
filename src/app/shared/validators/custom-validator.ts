@@ -118,7 +118,7 @@ export class CustomValidator {
     };
   }
 
-  billPeriodValidator(_id: string, _billMonth: number, _billYear: number): AsyncValidatorFn {
+  billPeriodValidator(_billMonth: number, _billYear: number): AsyncValidatorFn {
     return (
       control: AbstractControl
     ):
@@ -129,17 +129,20 @@ export class CustomValidator {
         return of(null);
 
       return this.HttpClientBillService.getBills().map(x => {
-        const houseIdControl = control.parent.controls['houseId'] as AbstractControl;
-        const billMonthControl = control.parent.controls['billMonth'] as AbstractControl;
-        const billYearControl = control.parent.controls['billYear'] as AbstractControl;
-        
-        const bills = x.filter(x => (x as any).house?._id == houseIdControl.value) || [];
 
+        const _id = (control.parent.controls['_id'] as AbstractControl).value;
+        const houseId = (control.parent.controls['houseId'] as AbstractControl).value;
+        const billMonth = (control.parent.controls['billMonth'] as AbstractControl).value;
+        const billYear = (control.parent.controls['billYear'] as AbstractControl).value;
+        
+        debugger;
+        const bills = x.filter(x => (x as any).house?._id == houseId) || [];
+        
         const filtered = bills.filter(x => {
           if ((_id || '') == '')
-            return x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+            return x.billMonth == +billMonth && x.billYear == +billYear;
 
-          return !(x.billMonth == _billMonth && x.billYear == _billYear) && x.billMonth == +billMonthControl.value && x.billYear == +billYearControl.value;
+          return !(x.billMonth == _billMonth && x.billYear == _billYear) && x.billMonth == +billMonth && x.billYear == +billYear;
         });
         const validation = filtered.length <= 0 ? null : { billPeriod: { value: control.value } };
 

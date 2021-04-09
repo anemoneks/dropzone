@@ -59,8 +59,6 @@ export class BillDetailComponent implements OnInit {
     this.f().get('billYear').setValidators([Validators.required]);
     this.f().get('attachment').setValidators([Validators.required]);
     this.f().get('filename').setValidators([Validators.required]);
-    this.f().get('billMonth').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
-    this.f().get('billYear').setAsyncValidators([this.CustomValidator.billPeriodValidator(this.f().get('_id').value || '', this.f().get('billMonth').value, this.f().get('billYear').value)]);
 
 
     if (this.billId != '') {
@@ -74,6 +72,10 @@ export class BillDetailComponent implements OnInit {
           this.f().get('billYear').setValue(x.billYear || null);
           this.f().get('filename').setValue(x.filename || null);
           this.f().get('attachment').setValue(x.attachment || null);
+          this.f().get('status').setValue(x.status || null);
+
+          this.f().get('billMonth').setAsyncValidators([this.CustomValidator.billPeriodValidator(x.billMonth, x.billYear)]);
+          this.f().get('billYear').setAsyncValidators([this.CustomValidator.billPeriodValidator(x.billMonth, x.billYear)]);
         });
     }
     else {
@@ -85,6 +87,7 @@ export class BillDetailComponent implements OnInit {
       this.f().get('billYear').setValue(null);
       this.f().get('filename').setValue(null);
       this.f().get('attachment').setValue(null);
+      this.f().get('status').setValue(0);
     }
 
     this.HttpClientHouseService.getHouses()
@@ -197,6 +200,7 @@ export class BillDetailComponent implements OnInit {
         billYear: this.f().get('billYear').value,
         attachment: this.f().get('attachment').value,
         filename: this.f().get('filename').value,
+        status: this.f().get('status').value,
       } as IBill;
 
       if ((bill._id || '') == '') {

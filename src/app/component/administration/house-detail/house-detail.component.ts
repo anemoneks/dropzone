@@ -359,8 +359,8 @@ export class HouseDetailComponent implements OnInit, AfterViewInit {
     this.billDetailForm.controls.billMonth.setValidators([Validators.required]);
     this.billDetailForm.controls.billYear.setValidators([Validators.required]);
 
-    this.billDetailForm.controls.billMonth.setAsyncValidators([this.CustomValidator.billPeriodValidator(bill._id || '', bill.billMonth, bill.billYear)]);
-    this.billDetailForm.controls.billYear.setAsyncValidators([this.CustomValidator.billPeriodValidator(bill._id || '', bill.billMonth, bill.billYear)]);
+    this.billDetailForm.controls.billMonth.setAsyncValidators([this.CustomValidator.billPeriodValidator(bill.billMonth, bill.billYear)]);
+    this.billDetailForm.controls.billYear.setAsyncValidators([this.CustomValidator.billPeriodValidator(bill.billMonth, bill.billYear)]);
 
     this.billDetailForm.controls.amount.setValue(bill.amount);
     this.billDetailForm.controls.invoiceNo.setValue(bill.invoiceNo);
