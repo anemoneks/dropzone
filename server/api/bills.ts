@@ -1,31 +1,46 @@
 import * as passport from 'passport';
-import { passwordConfig } from '../config/passport';
 import * as express from 'express';
 import { Bill } from './../models/Bill';
 
-passwordConfig(passport);
-
 export const api = express();
 
-api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  Bill.find((err, bills) => {
-    if (err) return next(err);
-    res.json(bills || []);
-  });
-});
-
-api.get('/:id', passport.authenticate('jwt', {
-  session: false
-}), (req, res, next) => {
-  let _id = req.params.id;
-  Bill.findOne({
-    _id: _id,
-  }).populate('house')
-    .exec(function (err, bill) {
+api.get('/owner/dashboard', passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    Bill.find((err, bills) => {
       if (err) return next(err);
-      res.json(bill);
+
+      const outstandingBalance = ((bills || []).map(x => {
+        return x.amount || 0;
+      }) || [])
+        .reduce((a, b) => {
+          return a + b;
+        }, 0);
+
+      res.json({
+        outstandingBalance: outstandingBalance,
+      });
     });
-});
+  });
+
+api.get('/', passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    Bill.find((err, bills) => {
+      if (err) return next(err);
+      res.json(bills || []);
+    });
+  });
+
+api.get('/:id', passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    let _id = req.params.id;
+    Bill.findOne({
+      _id: _id,
+    }).populate('house')
+      .exec(function (err, bill) {
+        if (err) return next(err);
+        res.json(bill);
+      });
+  });
 
 api.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const { houseId, invoiceNo, amount, billMonth, billYear, attachment, filename } = (req.body);

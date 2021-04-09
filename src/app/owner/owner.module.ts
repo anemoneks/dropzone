@@ -9,6 +9,7 @@ import { NgSelect2Module } from 'ng-select2';
 import { PaymentsComponent } from './payments/payments.component';
 import { BillsComponent } from './bills/bills.component';
 import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     PaymentsComponent,
     BillsComponent,
     PaymentDetailComponent,
+    DashboardComponent,
   ],
 })
 export class OwnerModule { }

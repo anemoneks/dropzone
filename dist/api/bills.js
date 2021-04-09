@@ -2,11 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.api = void 0;
 const passport = require("passport");
-const passport_1 = require("../config/passport");
 const express = require("express");
 const Bill_1 = require("./../models/Bill");
-passport_1.passwordConfig(passport);
 exports.api = express();
+exports.api.get('/owner/dashboard', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    Bill_1.Bill.find((err, bills) => {
+        if (err)
+            return next(err);
+        const outstandingBalance = ((bills || []).map(x => {
+            return x.amount || 0;
+        }) || [])
+            .reduce((a, b) => {
+            return a + b;
+        }, 0);
+        res.json({
+            outstandingBalance: outstandingBalance,
+        });
+    });
+});
 exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     Bill_1.Bill.find((err, bills) => {
         if (err)
@@ -14,9 +27,7 @@ exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res
         res.json(bills || []);
     });
 });
-exports.api.get('/:id', passport.authenticate('jwt', {
-    session: false
-}), (req, res, next) => {
+exports.api.get('/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     let _id = req.params.id;
     Bill_1.Bill.findOne({
         _id: _id,

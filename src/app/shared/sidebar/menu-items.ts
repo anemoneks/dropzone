@@ -9,7 +9,7 @@ export const ROUTES: RouteInfo[] = [
     extralink: true,
     submenu: [
       {
-        path: '/dashboard',
+        path: '/owner/dashboard',
         title: 'Dashboard',
         icon: 'mdi mdi-gauge',
         class: '',

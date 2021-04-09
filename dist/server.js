@@ -19,6 +19,7 @@ const visitors_1 = require("./api/visitors");
 const races_1 = require("./api/races");
 const vehicleTypes_1 = require("./api/vehicleTypes");
 const visitingPurposes_1 = require("./api/visitingPurposes");
+const dashboard_1 = require("./api/dashboard");
 /**
  * MONGO DB INITIALIZATION
  */
@@ -49,6 +50,7 @@ app.use('/api/races', races_1.api);
 app.use('/api/visitors', visitors_1.api);
 app.use('/api/vehicleTypes', vehicleTypes_1.api);
 app.use('/api/visitingPurposes', visitingPurposes_1.api);
+app.use('/api/dashboard', dashboard_1.api);
 /**
  * SERVER INITIALIZATION
  */

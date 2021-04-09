@@ -4,8 +4,6 @@ exports.api = void 0;
 const passport = require("passport");
 const express = require("express");
 const Role_1 = require("./../models/Role");
-const passport_1 = require("./../config/passport");
-passport_1.passwordConfig(passport);
 exports.api = express();
 exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     Role_1.Role.find(function (err, users) {
