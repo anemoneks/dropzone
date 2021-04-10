@@ -135,7 +135,6 @@ export class CustomValidator {
         const billMonth = (control.parent.controls['billMonth'] as AbstractControl).value;
         const billYear = (control.parent.controls['billYear'] as AbstractControl).value;
         
-        debugger;
         const bills = x.filter(x => (x as any).house?._id == houseId) || [];
         
         const filtered = bills.filter(x => {
