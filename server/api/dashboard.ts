@@ -37,10 +37,14 @@ api.get('/owner', passport.authenticate('jwt', { session: false }),
 
             const outstanding = (bills as any[]).map(x => x.amount || 0).reduce((a, b) => a + b, 0);
             const paid = (payments as any[]).map(x => x.amount || 0).reduce((a, b) => a + b, 0);
+            const sorted = (payments as any[]).sort((a, b) => {
+              return b.paidDate - a.paidDate;
+            }) || [];
 
             res.json({
               outstanding: outstanding,
               paid: paid,
+              lastPaidDate: (sorted[0] || null)?.paidDate,
             });
           });
 

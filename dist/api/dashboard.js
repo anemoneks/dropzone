@@ -27,13 +27,18 @@ exports.api.get('/owner', passport.authenticate('jwt', { session: false }), (req
             return rxjs_1.throwError(error);
         }))
             .subscribe(results => {
+            var _a;
             const bills = results[0] || [];
             const payments = results[1] || [];
             const outstanding = bills.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
             const paid = payments.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
+            const sorted = payments.sort((a, b) => {
+                return b.paidDate - a.paidDate;
+            }) || [];
             res.json({
                 outstanding: outstanding,
                 paid: paid,
+                lastPaidDate: (_a = (sorted[0] || null)) === null || _a === void 0 ? void 0 : _a.paidDate,
             });
         });
     });
