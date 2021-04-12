@@ -97,6 +97,14 @@ export const ROUTES: RouteInfo[] = [
         extralink: false,
         submenu: []
       },
+      {
+        path: '/committee/documents',
+        title: 'Documents',
+        icon: 'mdi mdi-cash-usd',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
     ]
   },
   {

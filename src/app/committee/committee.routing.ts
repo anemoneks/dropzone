@@ -11,6 +11,7 @@ import { RolesComponent } from '../component/administration/roles/roles.componen
 import { ReceiptsComponent } from './receipts/receipts.component';
 import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
 import { BillDetailComponent } from './bill-detail/bill-detail.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -215,6 +216,17 @@ export const CommitteeRoutes: Routes = [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngComponent' },
             { title: 'Receipts' }
+          ]
+        }
+      },
+      {
+        path: 'documents',
+        component: DocumentsComponent,
+        data: {
+          title: 'Documents',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Documents' }
           ]
         }
       },
