@@ -80,8 +80,6 @@ export class ReceiptDetailComponent implements OnInit {
           return new House(h);
         }) || [];
 
-        console.log(mapped);
-
         this.select2houses = mapped.sort((a, b) => {
           return a.address().localeCompare(b.address());
         })

@@ -1,0 +1,106 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<style>
+  #container {
+    width: 150px;
+    height: 150px;
+    /*border-radius: 25px;*/
+    border: 2px solid Black;
+    padding: 15px 15px 15px 15px;
+    margin: 20px 20px 20px 20px;
+    background: #A4D3EE;
+    overflow: visible;
+    box-shadow: 5px 5px 2px #888888;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+  }
+
+  #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+  }
+</style>
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls?.title?.touched && f().controls?.title?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Title must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="f().controls?.filename?.touched && f().controls?.filename?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Document must be provided.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="f().controls?.documentType?.touched && f().controls?.documentType?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Document type must be selected.
+              </ngb-alert>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="title">Title</label>
+              <input class="form-control" formControlName="title"
+                [ngClass]="{ 'border border-danger': f().controls?.title?.errors?.required }" id="title"
+                placeholder="Title">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="title">Type</label>
+              <select class="form-control" formControlName="documentType"
+                [ngClass]="{ 'border border-danger': f().controls?.documentType?.errors?.required }" id="documentType"
+                placeholder="Document Type">
+                <option></option>
+                <option *ngFor="let documentType of documentTypes | keyvalue" [value]="documentType.key">{{ documentType.value }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="attachment">Document</label>
+              <input type="file" class="form-control" id="attachment"
+                [ngClass]="{ 'border border-danger': f().controls?.filename?.errors?.required }"
+                (change)="handleFileInput($event.target.files)">
+            </div>
+          </div>
+          <div class="form-row" *ngIf="f().get('attachment').value != null">
+            <div class="form-group col-3">
+              <div id="container" (click)="previewImage();"
+                style="background-image: url({{f().controls?.attachment.value}});">
+                <button id="x" (click)="removeImage();">
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col d-flex justify-content-end w-100">
+              <button type="button" (click)="backClicked()" class="btn btn-primary">Back</button>
+              &nbsp;
+              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->

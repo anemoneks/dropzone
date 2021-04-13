@@ -3,22 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.api = void 0;
 const passport = require("passport");
 const express = require("express");
-const Race_1 = require("./../models/Race");
+const documentType_1 = require("./../models/documentType");
 exports.api = express();
 exports.api.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Race_1.Race.find(function (err, races) {
+    documentType_1.DocumentType.find(function (err, documentTypes) {
         if (err)
             return next(err);
-        res.json(races);
+        res.json(documentTypes);
     });
 });
 exports.api.get('/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     var id = req.params.id;
-    Race_1.Race.findOne({ _id: id })
-        .exec(function (err, role) {
+    documentType_1.DocumentType.findOne({ _id: id })
+        .exec(function (err, documentType) {
         if (err)
             return next(err);
-        res.json(role);
+        res.json(documentType);
     });
 });
 //# sourceMappingURL=races copy.js.map

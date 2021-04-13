@@ -120,8 +120,6 @@ export class VisitorDetailComponent implements AfterViewInit, OnInit {
 
     if (_id) {
 
-      console.log(_id);
-
       this.HttpClientVisitorService.getVisitor(_id)
         .subscribe(x => {
 

@@ -15,6 +15,7 @@ import { IDocument } from '../../interfaces/i-document';
 import { Options } from 'select2';
 import { Select2OptionData } from 'ng-Select2';
 import { House } from '../../models/house';
+import { DocumentType } from './../../enums/document-type.enum';
 
 @Component({
   selector: 'app-documents',
@@ -49,6 +50,8 @@ export class DocumentsComponent implements OnDestroy, OnInit {
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger = new Subject();
+
+  public get documentTypes() { return DocumentType; }
 
   ngOnInit(): void {
     this.dtOptions = {

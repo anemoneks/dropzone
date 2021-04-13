@@ -79,7 +79,6 @@ export class BillsComponent implements OnDestroy, OnInit {
     bill.houseId = (bill as any).house?._id;
     bill.status = bill.status ? 0 : 1; 
     this.HttpClientBillService.updateBill(bill).subscribe(x => {
-      console.log('updated successfully');
     });
   }
 

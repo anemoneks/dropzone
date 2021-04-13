@@ -5,8 +5,16 @@ var schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  filename: {
+    type: String,
+    required: true
+  },
   attachment: {
     type: String,
+    required: true
+  },
+  documentType: {
+    type: Number,
     required: true
   },
   createdBy: {

@@ -12,6 +12,7 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
 import { BillDetailComponent } from './bill-detail/bill-detail.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { DocumentDetailComponent } from './document-detail/document-detail.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -227,6 +228,28 @@ export const CommitteeRoutes: Routes = [
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Documents' }
+          ]
+        }
+      },
+      {
+        path: 'documents/new',
+        component: DocumentDetailComponent,
+        data: {
+          title: 'Document Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Document Detail' }
+          ]
+        }
+      },
+      {
+        path: 'documents/edit/:id',
+        component: DocumentDetailComponent,
+        data: {
+          title: 'Document Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Bills' }
           ]
         }
       },
