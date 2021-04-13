@@ -2,6 +2,7 @@ import { IHouse } from "../interfaces/i-house";
 import { IBill } from "../interfaces/i-bill";
 import { IUser } from "../interfaces/i-user";
 import { IPayment } from "../interfaces/i-payment";
+import { IDocument } from "../interfaces/i-document";
 
 export class House implements IHouse {
   constructor(house: IHouse = null) {
@@ -13,6 +14,7 @@ export class House implements IHouse {
     this.users = house?.users || [];
     this.bills = house?.bills || [];
     this.payments = house?.payments || [];
+    this.documents = house?.documents || [];
   }
 
   _id: string;
@@ -22,6 +24,7 @@ export class House implements IHouse {
   users: IUser[];
   bills: IBill[];
   payments: IPayment[];
+  documents: IDocument[];
 
   public address(): string {
     return this.unit + ', ' + this.street;

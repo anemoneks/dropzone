@@ -28,6 +28,11 @@ const schema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Vehicle'
         }],
+    documents: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Document',
+            unique: true
+        }],
 });
 exports.House = mongoose.model('House', schema);
 //# sourceMappingURL=House.js.map

@@ -4,10 +4,8 @@ import 'rxjs/add/operator/map';
 import { HttpClientHouseService } from '../../services/http-client-house.service';
 import { HttpClientDocumentService } from '../../services/http-client-document.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Document } from '../../models/document';
 import { FileUpload } from '../../shared/file-upload';
 import { ModalDismissReasons, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IHouse } from '../../interfaces/i-house';
@@ -16,6 +14,7 @@ import { Options } from 'select2';
 import { Select2OptionData } from 'ng-Select2';
 import { House } from '../../models/house';
 import { DocumentType } from './../../enums/document-type.enum';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-documents',
@@ -113,6 +112,13 @@ export class DocumentsComponent implements OnDestroy, OnInit {
 
   onDateChange(date: NgbDateStruct) {
     this.documentDetailForm.get('document.paidDate').setValue(new Date(this.paidDate.year, this.paidDate.month - 1, this.paidDate.day));
+  }
+
+  changeStatus(document: IDocument): void {
+    this.HttpClientHouseService.addDocuments([document])
+    .subscribe(x => {
+      console.log('updated!');
+    });
   }
 
   handleFileInput(files: FileList) {

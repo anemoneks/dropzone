@@ -14,6 +14,7 @@
               <th>Filename</th>
               <th>Type</th>
               <th>Released Date</th>
+              <th>Published Date</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -27,6 +28,9 @@
                   documentTypes[document.documentType] }}</a></td>
               <td><a href="javascript: void (0);" [routerLink]="['/committee/documents/edit/' + document._id]">{{
                   document.releasedDate | date: 'dd-MM-yyyy' }}</a></td>
+              <td align="center"><button type="button"
+                  [ngClass]="'btn btn-outline-info'" (click)="changeStatus(document)"><span
+                    class="btn-label m-r-5">Publish</span></button></td>
               <td>
                 <div class="pretty p-icon">
                   <input class="form-check-input" type="checkbox" id="gridCheck" (click)="$event.stopPropagation()"
@@ -41,7 +45,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <th colspan="5">
+              <th colspan="6">
                 <div class="d-flex justify-content-end w-100">
                   <div class="p-2"><button type="button" class="btn btn-primary"
                       routerLink="/committee/documents/new">Add New</button>

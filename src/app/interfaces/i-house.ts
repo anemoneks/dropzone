@@ -1,4 +1,5 @@
 import { IBill } from "./i-bill";
+import { IDocument } from "./i-document";
 import { IPayment } from "./i-payment";
 import { IUser } from "./i-user";
 
@@ -10,4 +11,5 @@ export interface IHouse {
   users: IUser[];
   bills: IBill[];
   payments: IPayment[];
+  documents: IDocument[];
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"VisitingPurpose.js","sourceRoot":"","sources":["../../../server/models/VisitingPurpose.ts"],"names":[],"mappings":";;;AAAA,qCAAqC;AAErC,IAAI,MAAM,GAAG,IAAI,QAAQ,CAAC,MAAM,CAAC;IAC/B,WAAW,EAAE;QACX,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACf;CACF,CAAC,CAAC;AAEU,QAAA,eAAe,GAAG,QAAQ,CAAC,KAAK,CAAC,iBAAiB,EAAE,MAAM,CAAC,CAAC"}

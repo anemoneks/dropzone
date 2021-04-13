@@ -31,6 +31,10 @@ var userSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Role'
         }],
+    documents: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Document'
+        }],
     avatar: {
         type: Object,
         required: false

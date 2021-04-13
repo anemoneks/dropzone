@@ -22,7 +22,7 @@ api.delete('/:id', passport.authenticate('jwt', {
   });
 });
 
-api.get('/', (req: express.Request, res: express.Response, next) => {  
+api.get('/', (req: express.Request, res: express.Response, next) => {
   House.find({})
     .populate('bills')
     .populate('users')
@@ -37,7 +37,7 @@ api.get('/', (req: express.Request, res: express.Response, next) => {
 api.get('/owner', passport.authenticate('jwt', {
   session: false
 }),
-(req: express.Request, res: express.Response, next) => {
+  (req: express.Request, res: express.Response, next) => {
     const token = helper.getToken(req.headers);
     const verified: any = jwt.verify(token, config.secret);
 
@@ -94,14 +94,7 @@ api.get('/:id', passport.authenticate('jwt', {
 api.post('/', passport.authenticate('jwt', {
   session: false
 }), (req: express.Request, res: express.Response, next) => {
-  var {
-    _id,
-    street,
-    unit,
-    users,
-    bills,
-    payments
-  } = req.body;
+  var { _id, street, unit, users, bills, payments } = req.body;
   House.insertMany([{
     street: street,
     unit: unit,
@@ -118,14 +111,7 @@ api.put('/', passport.authenticate('jwt', {
   session: false
 }), (req, res, next) => {
 
-  var {
-    _id,
-    street,
-    unit,
-    bills,
-    users,
-    payments
-  } = req.body;
+  var { _id, street, unit, bills, users, payments, documents } = req.body;
 
   House.update({
     _id: _id
@@ -136,10 +122,18 @@ api.put('/', passport.authenticate('jwt', {
       bills: bills,
       users: users,
       payments: payments,
+      documents: [...new Set(documents)],
     }
   }, (err, modified) => {
     if (err) return next(err);
-
     res.json(modified);
   });
+});
+
+api.put('/documents', passport.authenticate('jwt', {
+  session: false
+}), (req, res, next) => {
+  var documents = req.body;
+  House.updateMany({}, { $addToSet: { documents: documents[0] } })
+    .exec((err, houses) => res.json(houses));
 });

@@ -6,6 +6,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 
 import { HouseService } from './house.service';
 import { IHouse } from '../interfaces/i-house';
+import { IDocument } from '../interfaces/i-document';
 
 const cudOptions = {
   headers: new HttpHeaders({
@@ -83,6 +84,12 @@ export class HttpClientHouseService extends HouseService {
 
   updateHouse(house: IHouse): Observable<null | IHouse> {
     return this.http.put<IHouse>(this.housesUrl, house, cudOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  addDocuments(documents: IDocument[]): Observable<null | IHouse> {
+    return this.http.put<IHouse>(this.housesUrl + '/documents', documents, cudOptions).pipe(
       catchError(this.handleError)
     );
   }

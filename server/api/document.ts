@@ -65,6 +65,8 @@ api.put('/', passport.authenticate('jwt', {
     document.attachment = attachment;
     document.documentType = documentType;
     document.releasedDate = releasedDate;
+    document.updatedDate = new Date();
+    document.updatedBy = verified._id;
     document.save();
     res.json(document);
   });

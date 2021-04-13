@@ -103,7 +103,7 @@ exports.api.post('/', passport.authenticate('jwt', {
 exports.api.put('/', passport.authenticate('jwt', {
     session: false
 }), (req, res, next) => {
-    var { _id, street, unit, bills, users, payments } = req.body;
+    var { _id, street, unit, bills, users, payments, documents } = req.body;
     House_1.House.update({
         _id: _id
     }, {
@@ -113,11 +113,19 @@ exports.api.put('/', passport.authenticate('jwt', {
             bills: bills,
             users: users,
             payments: payments,
+            documents: [...new Set(documents)],
         }
     }, (err, modified) => {
         if (err)
             return next(err);
         res.json(modified);
     });
+});
+exports.api.put('/documents', passport.authenticate('jwt', {
+    session: false
+}), (req, res, next) => {
+    var documents = req.body;
+    House_1.House.updateMany({}, { $addToSet: { documents: documents[0] } })
+        .exec((err, houses) => res.json(houses));
 });
 //# sourceMappingURL=houses.js.map
