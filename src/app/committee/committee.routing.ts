@@ -13,6 +13,7 @@ import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.componen
 import { BillDetailComponent } from './bill-detail/bill-detail.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { DocumentDetailComponent } from './document-detail/document-detail.component';
+import { MessagesComponent } from './messages/messages.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -250,6 +251,17 @@ export const CommitteeRoutes: Routes = [
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Bills' }
+          ]
+        }
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+        data: {
+          title: 'Messages',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Messages' }
           ]
         }
       },

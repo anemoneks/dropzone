@@ -21,6 +21,7 @@ import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.componen
 import { BillDetailComponent } from './bill-detail/bill-detail.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { DocumentDetailComponent } from './document-detail/document-detail.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { DocumentDetailComponent } from './document-detail/document-detail.compo
     ReceiptDetailComponent,
     DocumentsComponent,
     DocumentDetailComponent,
+    MessagesComponent,
   ]
 })
 export class CommitteeModule { }

@@ -21,6 +21,7 @@ const vehicleTypes_1 = require("./api/vehicleTypes");
 const visitingPurposes_1 = require("./api/visitingPurposes");
 const dashboard_1 = require("./api/dashboard");
 const document_1 = require("./api/document");
+const messages_1 = require("./api/messages");
 /**
  * MONGO DB INITIALIZATION
  */
@@ -53,6 +54,7 @@ app.use('/api/vehicleTypes', vehicleTypes_1.api);
 app.use('/api/visitingPurposes', visitingPurposes_1.api);
 app.use('/api/dashboard', dashboard_1.api);
 app.use('/api/documents', document_1.api);
+app.use('/api/messages', messages_1.api);
 /**
  * SERVER INITIALIZATION
  */

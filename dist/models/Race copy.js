@@ -8,5 +8,5 @@ var schema = new mongoose.Schema({
         required: true
     },
 });
-exports.Race = mongoose.model('Race', schema);
+exports.Race = mongoose.model('memo', schema);
 //# sourceMappingURL=Race copy.js.map

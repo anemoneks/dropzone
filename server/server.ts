@@ -19,6 +19,7 @@ import { api as vehicleTypes } from './api/vehicleTypes';
 import { api as visitingPurposes } from './api/visitingPurposes';
 import { api as dashboard } from './api/dashboard';
 import { api as documents } from './api/document';
+import { api as messages } from './api/messages';
 
 /**
  * MONGO DB INITIALIZATION
@@ -58,6 +59,7 @@ app.use('/api/vehicleTypes', vehicleTypes);
 app.use('/api/visitingPurposes', visitingPurposes);
 app.use('/api/dashboard', dashboard);
 app.use('/api/documents', documents);
+app.use('/api/messages', messages);
 
 /**
  * SERVER INITIALIZATION

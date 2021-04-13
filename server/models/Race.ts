@@ -7,4 +7,4 @@ var schema = new mongoose.Schema({
   },
 });
 
-export const Race = mongoose.model('memo', schema);
+export const Race = mongoose.model('Race', schema);

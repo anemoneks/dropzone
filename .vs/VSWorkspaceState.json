@@ -1,13 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules",
-    "\\node_modules\\@angular",
-    "\\node_modules\\@angular\\cdk",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\component",
-    "\\src\\app\\component\\house-detail"
+    "\\src\\app\\component"
   ],
+  "SelectedNode": "\\src\\app\\component\\component.module.ts",
   "PreviewInSolutionExplorer": false
 }
