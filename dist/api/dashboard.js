@@ -32,7 +32,10 @@ exports.api.get('/owner', passport.authenticate('jwt', { session: false }), (req
             var _a;
             const bills = results[0] || [];
             const payments = results[1] || [];
-            const memo = results[2] || [];
+            const memo = (results[2] || []).filter(x => x.documentType == 1);
+            const warnings = (results[2] || []).filter(x => x.documentType == 3);
+            const announcements = (results[2] || []).filter(x => x.documentType == 2);
+            const consents = (results[2] || []).filter(x => x.documentType == 4);
             const outstanding = bills.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
             const paid = payments.map(x => x.amount || 0).reduce((a, b) => a + b, 0);
             const sorted = payments.sort((a, b) => {
@@ -43,6 +46,9 @@ exports.api.get('/owner', passport.authenticate('jwt', { session: false }), (req
                 paid: paid,
                 lastPaidDate: (_a = (sorted[0] || null)) === null || _a === void 0 ? void 0 : _a.paidDate,
                 memo: memo.length,
+                warnings: warnings.length,
+                announcements: announcements.length,
+                consents: consents.length,
             });
         });
     });
