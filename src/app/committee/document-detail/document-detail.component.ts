@@ -25,6 +25,7 @@ export class DocumentDetailComponent implements OnInit {
   public issuedDate: NgbDateStruct;
   public files: File[] = [];
   public selectedFiles: Array<string> = new Array<string>();
+  public releasedDate: NgbDateStruct;
 
   constructor(
     private Location: Location,
@@ -57,6 +58,7 @@ export class DocumentDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.f().get('releasedDate').setValidators([Validators.required]);
     this.f().get('title').setValidators([Validators.required]);
     this.f().get('filename').setValidators([Validators.required]);
     this.f().get('documentType').setValidators([Validators.required]);
@@ -69,6 +71,9 @@ export class DocumentDetailComponent implements OnInit {
           this.documentDetailForm.get('documentType').setValue(x.documentType);
           this.documentDetailForm.get('filename').setValue(x.filename || null);
           this.documentDetailForm.get('attachment').setValue(x.attachment || null);
+          this.documentDetailForm.get('releasedDate').setValue(x.releasedDate || null);
+          const releasedDate = new Date(x.releasedDate);
+          this.releasedDate = { year: releasedDate.getFullYear(), month: releasedDate.getMonth() + 1, day: releasedDate.getDate() } as NgbDateStruct;
         });
     }
 
@@ -94,6 +99,16 @@ export class DocumentDetailComponent implements OnInit {
           multiple: false,
         };
       });
+  }
+
+  onDateChange(date: NgbDateStruct) {
+    if (this.releasedDate == null)
+    {
+      this.f().get('releasedDate').setValue(null);
+      return;
+    }
+    
+    this.f().get('releasedDate').setValue(new Date(this.releasedDate.year, this.releasedDate.month - 1, this.releasedDate.day));
   }
 
   onSelect(event) {
@@ -146,6 +161,7 @@ export class DocumentDetailComponent implements OnInit {
         filename: this.f().get('filename').value,
         attachment: this.f().get('attachment').value,
         documentType: this.f().get('documentType').value,
+        releasedDate: this.f().get('releasedDate').value,
       } as IDocument;
 
       if ((document._id || '') == '') {

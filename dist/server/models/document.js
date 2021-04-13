@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Document = void 0;
 const mongoose = require("mongoose");
+const DocumentType = require("./../../src/app/enums/document-type.enum");
 var schema = new mongoose.Schema({
     title: {
         type: String,
@@ -16,11 +17,7 @@ var schema = new mongoose.Schema({
         required: true
     },
     documentType: {
-        type: Number,
-        required: true
-    },
-    releasedDate: {
-        type: Date,
+        type: DocumentType,
         required: true
     },
     createdBy: {

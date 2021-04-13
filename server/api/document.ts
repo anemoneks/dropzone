@@ -30,13 +30,14 @@ api.post('/', passport.authenticate('jwt', {
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
 
-  const { _id, title, filename, attachment, documentType } = req.body;
+  const { _id, title, filename, attachment, documentType, releasedDate } = req.body;
 
   Document.insertMany([{
     title: title,
     filename: filename,
     attachment: attachment,
     documentType: documentType,
+    releasedDate: releasedDate,
     createdBy: verified._id,
     createdDate: new Date(),
     updatedBy: verified._id,
@@ -53,7 +54,7 @@ api.put('/', passport.authenticate('jwt', {
 
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
-  const { _id, title, filename, attachment, documentType } = req.body;
+  const { _id, title, filename, attachment, documentType, releasedDate } = req.body;
 
   Document.findOne({
     _id: _id
@@ -63,6 +64,7 @@ api.put('/', passport.authenticate('jwt', {
     document.filename = filename;
     document.attachment = attachment;
     document.documentType = documentType;
+    document.releasedDate = releasedDate;
     document.save();
     res.json(document);
   });

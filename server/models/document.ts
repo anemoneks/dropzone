@@ -17,6 +17,10 @@ var schema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  releasedDate: {
+    type: Date,
+    required: true
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

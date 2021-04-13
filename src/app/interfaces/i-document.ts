@@ -4,6 +4,7 @@ export interface IDocument {
   filename: string;
   attachment: string;
   documentType: DocumentType;
+  releasedDate: Date;
   createdBy: string;
   createdDate: Date;
   updatedBy: string;

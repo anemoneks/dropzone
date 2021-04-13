@@ -11,6 +11,7 @@ export class Document implements IDocument {
     this.createdDate = document?.createdDate || null;
     this.updatedBy = document?.updatedBy || null;
     this.updatedDate = document?.updatedDate || null;
+    this.releasedDate = document?.releasedDate || null;
   }
 
   _id: string;
@@ -22,4 +23,5 @@ export class Document implements IDocument {
   createdDate: Date;
   updatedBy: string;
   updatedDate: Date;
+  releasedDate: Date;
 }

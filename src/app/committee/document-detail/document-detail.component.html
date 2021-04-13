@@ -31,10 +31,17 @@
     <div class="card">
       <div class="card-body">
         <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls?.releasedDate?.touched && f().controls?.releasedDate?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Released date must be selected.
+              </ngb-alert>
+            </div>
+          </div>
           <div class="form-row" *ngIf="f().controls?.title?.touched && f().controls?.title?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
-                Title must be selected.
+                Title must be specified.
               </ngb-alert>
             </div>
           </div>
@@ -45,13 +52,32 @@
               </ngb-alert>
             </div>
           </div>
-          <div class="form-row" *ngIf="f().controls?.documentType?.touched && f().controls?.documentType?.errors?.required">
+          <div class="form-row"
+            *ngIf="f().controls?.documentType?.touched && f().controls?.documentType?.errors?.required">
             <div class="col-md-12">
               <ngb-alert [dismissible]="false">
                 Document type must be selected.
               </ngb-alert>
             </div>
           </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" ngbDatepicker [(ngModel)]="releasedDate"
+                  [ngClass]="{ 'border border-danger': f().controls.releasedDate?.errors?.required }"
+                  (ngModelChange)="onDateChange($event)" #d3="ngbDatepicker" ngModel
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary no-shadow" (click)="d3.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group col-12">
               <label for="title">Title</label>
@@ -67,7 +93,8 @@
                 [ngClass]="{ 'border border-danger': f().controls?.documentType?.errors?.required }" id="documentType"
                 placeholder="Document Type">
                 <option></option>
-                <option *ngFor="let documentType of documentTypes | keyvalue" [value]="documentType.key">{{ documentType.value }}</option>
+                <option *ngFor="let documentType of documentTypes | keyvalue" [value]="documentType.key">{{
+                  documentType.value }}</option>
               </select>
             </div>
           </div>
