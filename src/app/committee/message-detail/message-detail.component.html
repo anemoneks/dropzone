@@ -1,0 +1,93 @@
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->
+<style>
+  #container {
+    width: 150px;
+    height: 150px;
+    /*border-radius: 25px;*/
+    border: 2px solid Black;
+    padding: 15px 15px 15px 15px;
+    margin: 20px 20px 20px 20px;
+    background: #A4D3EE;
+    overflow: visible;
+    box-shadow: 5px 5px 2px #888888;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+  }
+
+  #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+  }
+</style>
+<div class="row">
+  <!-- column -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="f()">
+          <div class="form-row" *ngIf="f().controls?.subject?.touched && f().controls?.subject?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Subject must be specified.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="f().controls?.subject?.touched && f().controls?.body?.errors?.required">
+            <div class="col-md-12">
+              <ngb-alert [dismissible]="false">
+                Body must be specified.
+              </ngb-alert>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="house">House</label>
+              <div [ngClass]="{ 'border border-danger': f().controls?.house?.errors?.required }">
+                <ng-select2 [data]="select2houses" [options]="options" [width]="500" formControlName="house">
+                </ng-select2>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="subject">Subject</label>
+              <input class="form-control" formControlName="subject"
+                [ngClass]="{ 'border border-danger': f().controls?.subject?.errors?.required }" id="subject"
+                placeholder="Subject">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="body">Body</label>
+              <textarea class="form-control" formControlName="body"
+                [ngClass]="{ 'border border-danger': f().controls?.body?.errors?.required }" id="body"
+                placeholder="Body">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col d-flex justify-content-end w-100">
+              <button type="button" (click)="backClicked()" class="btn btn-primary">Back</button>
+              &nbsp;
+              <button type="button" (click)="save()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- Table -->
+<!-- ============================================================== -->

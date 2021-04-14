@@ -6,6 +6,7 @@ export interface IMessage {
   house: IHouse;
   subject: string;
   body: string;
+  unread: Boolean;
   createdBy: IUser;
   createdDate: Date;
   updatedBy: IUser;

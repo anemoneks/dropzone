@@ -14,6 +14,7 @@ import { BillDetailComponent } from './bill-detail/bill-detail.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { DocumentDetailComponent } from './document-detail/document-detail.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MessageDetailComponent } from './message-detail/message-detail.component';
 
 export const CommitteeRoutes: Routes = [
   {
@@ -262,6 +263,17 @@ export const CommitteeRoutes: Routes = [
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Messages' }
+          ]
+        }
+      },
+      {
+        path: 'messages/new',
+        component: MessageDetailComponent,
+        data: {
+          title: 'Message Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Message Detail' }
           ]
         }
       },

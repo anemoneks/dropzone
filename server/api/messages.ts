@@ -42,17 +42,17 @@ api.post('/', passport.authenticate('jwt', {
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
 
-  const { _id, house, subject, body, unread, createdDate, createdBy, updatedDate, updatedBy } = req.body;
+  const { _id, house, subject, body, unread, } = req.body;
 
   Message.insertMany([{
-    house: house,
+    house: house._id,
     subject: subject,
     body: body,
     unread: unread,
-    createdBy: createdBy,
-    createdDate: createdDate,
-    updatedBy: updatedBy,
-    updatedDate: updatedDate,
+    createdBy: verified._id,
+    createdDate: new Date(),
+    updatedBy: verified._id,
+    updatedDate: new Date(),
   }], (err, message) => {
     if (err) return next(err);
     res.json(message);
@@ -65,12 +65,15 @@ api.put('/', passport.authenticate('jwt', {
 
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
-  const { _id, house, subject, body, unread, createdDate, createdBy, updatedDate, updatedBy } = req.body;
+  const { _id, house, subject, body, unread } = req.body;
 
   Message.findOne({
     _id: _id
   }, (err, message: any) => {
     if (err) return next(err);
+    message.subject = subject;
+    message.body = body;
+    message.unread = unread;
     message.save();
     res.json(message);
   });
