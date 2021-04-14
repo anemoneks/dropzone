@@ -1,10 +1,10 @@
 import * as mongoose from 'mongoose';
 
 var schema = new mongoose.Schema({
-  house: {
+  houses: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'House'
-  },
+  }],
   subject: {
     type: String,
     required: true,

@@ -13,6 +13,7 @@ import { forkJoin, throwError } from 'rxjs';
 import { FileUpload } from '../../shared/file-upload';
 import { Location } from '@angular/common';
 import { catchError } from 'rxjs/operators';
+import { IHouse } from 'src/app/interfaces/i-house';
 
 @Component({
   selector: 'app-message-detail',
@@ -26,6 +27,7 @@ export class MessageDetailComponent implements OnInit {
   public files: File[] = [];
   public selectedFiles: Array<string> = new Array<string>();
   public releasedDate: NgbDateStruct;
+  public selectedHouses: IHouse[] = new Array<IHouse>();
 
   constructor(
     private Location: Location,
@@ -58,6 +60,7 @@ export class MessageDetailComponent implements OnInit {
       this.HttpClientMessageService.getMessage(this.messageId)
         .subscribe(x => {
           this.f().get('_id').setValue(x._id || null);
+          this.f().get('houses').setValue(x.houses);
           this.f().get('subject').setValue(x.subject || null);
           this.f().get('body').setValue(x.body || null);
           this.f().get('unread').setValue(x.unread);
@@ -141,20 +144,18 @@ export class MessageDetailComponent implements OnInit {
 
     if (this.f().valid) {
 
-      const messages = (this.f().get('house').value || []).map(x => {
-        return {
-          _id: this.f().get('_id').value,
-          house: { _id: x._id },
-          subject: this.f().get('subject').value,
-          body: this.f().get('body').value,
-          unread: <any>false,
-        } as IMessage;
-      });
+      const message = <IMessage>{
+        houses: (this.f().get('houses').value || []).map(x => <IHouse>({ _id: x })) || [],
+        subject: this.f().get('subject').value,
+        body: this.f().get('body').value,
+      };
 
-      forkJoin(messages.map(message => this.HttpClientMessageService.addMessage(message)) || [])
+      forkJoin([
+        this.HttpClientMessageService.addMessage(message)
+      ])
         .pipe(catchError(this.handleError))
         .subscribe(results => {
-          console.log(results);
+          this.Router.navigate(['/committee/messages']);
         });
     }
   }

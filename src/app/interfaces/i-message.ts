@@ -3,7 +3,7 @@ import { IUser } from "./i-user";
 
 export interface IMessage {
   _id: string;
-  house: IHouse;
+  houses: IHouse[];
   subject: string;
   body: string;
   unread: Boolean;

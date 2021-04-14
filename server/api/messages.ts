@@ -16,8 +16,10 @@ api.get('/', passport.authenticate('jwt', {
 
   Message.find({})
     .populate('house')
+    .populate('createdBy')
     .exec(function (err, messages) {
       if (err) return next(err);
+      console.log(messages);
       res.json(messages);
     });
 });
@@ -42,13 +44,15 @@ api.post('/', passport.authenticate('jwt', {
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
 
-  const { _id, house, subject, body, unread, } = req.body;
+  const { _id, houses, subject, body, unread, } = req.body;
+
+  console.log(houses);
 
   Message.insertMany([{
-    house: house._id,
+    houses: houses.map(x => x._id) || [],
     subject: subject,
     body: body,
-    unread: unread,
+    unread: unread ?? false,
     createdBy: verified._id,
     createdDate: new Date(),
     updatedBy: verified._id,

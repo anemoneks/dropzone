@@ -277,6 +277,17 @@ export const CommitteeRoutes: Routes = [
           ]
         }
       },
+      {
+        path: 'messages/edit/:id',
+        component: MessageDetailComponent,
+        data: {
+          title: 'Message Detail',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Message Detail' }
+          ]
+        }
+      },
     ]
   }
 ];

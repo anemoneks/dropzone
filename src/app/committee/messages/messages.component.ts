@@ -88,6 +88,7 @@ export class MessagesComponent implements OnDestroy, OnInit {
       this.HttpClientMessageService.getMessages()
     ]).subscribe(results => {
       this.messages = results[0] || [];
+      console.log(this.messages);
       this.dtTrigger.next();
     });
   }

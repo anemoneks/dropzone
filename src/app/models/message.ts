@@ -5,7 +5,7 @@ import { IUser } from "../interfaces/i-user";
 export class Message implements IMessage {
   constructor(message: IMessage = null) {
     this._id = message?._id || null;
-    this.house = message?.house || null;
+    this.houses = message?.houses || null;
     this.subject = message?.subject || null;
     this.body = message?.body || null;
     this.unread = message?.unread || null;
@@ -16,7 +16,7 @@ export class Message implements IMessage {
   }
 
   _id: string;
-  house: IHouse;
+  houses: IHouse[];
   subject: string;
   body: string;
   unread: Boolean;
