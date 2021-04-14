@@ -51,6 +51,14 @@ export class MessageDetailComponent implements OnInit {
     return this.route.snapshot.paramMap.get('id') || '';
   }
 
+  selectAll(): void {
+    const selected = !(this.f().get('allHouses').value ?? false);
+    this.f().get('allHouses').setValue(selected);
+
+    if (selected)
+      this.f().get('houses').setValue(null);
+  }
+
   ngOnInit(): void {
 
     this.f().get('subject').setValidators([Validators.required]);
@@ -60,6 +68,7 @@ export class MessageDetailComponent implements OnInit {
       this.HttpClientMessageService.getMessage(this.messageId)
         .subscribe(x => {
           this.f().get('_id').setValue(x._id || null);
+          this.f().get('allHouses').setValue(x.allHouses);
           this.f().get('houses').setValue(x.houses);
           this.f().get('subject').setValue(x.subject || null);
           this.f().get('body').setValue(x.body || null);
@@ -145,6 +154,7 @@ export class MessageDetailComponent implements OnInit {
     if (this.f().valid) {
 
       const message = <IMessage>{
+        allHouses: this.f().get('allHouses').value || false,
         houses: (this.f().get('houses').value || []).map(x => <IHouse>({ _id: x })) || [],
         subject: this.f().get('subject').value,
         body: this.f().get('body').value,

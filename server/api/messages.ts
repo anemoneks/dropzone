@@ -44,23 +44,43 @@ api.post('/', passport.authenticate('jwt', {
   const token = helper.getToken(req.headers);
   const verified: any = jwt.verify(token, config.secret);
 
-  const { _id, houses, subject, body, unread, } = req.body;
+  const { _id, allHouses, houses, subject, body, unread, } = req.body;
 
-  console.log(houses);
-
-  Message.insertMany([{
-    houses: houses.map(x => x._id) || [],
-    subject: subject,
-    body: body,
-    unread: unread ?? false,
-    createdBy: verified._id,
-    createdDate: new Date(),
-    updatedBy: verified._id,
-    updatedDate: new Date(),
-  }], (err, message) => {
-    if (err) return next(err);
-    res.json(message);
-  });
+  if (allHouses) {
+    House.find({})
+      .exec((err, _houses) => {
+        Message.insertMany([{
+          allHouses: allHouses || false,
+          houses: _houses.map(x => x._id) || [],
+          subject: subject,
+          body: body,
+          unread: unread ?? false,
+          createdBy: verified._id,
+          createdDate: new Date(),
+          updatedBy: verified._id,
+          updatedDate: new Date(),
+        }], (err, message) => {
+          if (err) return next(err);
+          res.json(message);
+        });
+      });
+  }
+  else {
+    Message.insertMany([{
+      allHouses: allHouses || false,
+      houses: houses.map(x => x._id) || [],
+      subject: subject,
+      body: body,
+      unread: unread ?? false,
+      createdBy: verified._id,
+      createdDate: new Date(),
+      updatedBy: verified._id,
+      updatedDate: new Date(),
+    }], (err, message) => {
+      if (err) return next(err);
+      res.json(message);
+    });
+  }
 });
 
 api.put('/', passport.authenticate('jwt', {

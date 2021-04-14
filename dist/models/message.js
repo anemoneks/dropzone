@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.collection = void 0;
 const mongoose = require("mongoose");
 var schema = new mongoose.Schema({
+    allHouses: {
+        type: Boolean,
+        required: true,
+    },
     houses: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'House'
